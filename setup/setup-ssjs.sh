@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install node packages
+echo "Note: this script should be run from wherever your package.json file exists"
 npm install
 
 echo "Please enter your github id:"
