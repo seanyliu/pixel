@@ -2,7 +2,7 @@
   "name": "pixel-alchemies",
   "version": "0.0.1",
   "description": "Pixel Alchemies mobile game",
-  "web": "web.js",
+  "main": "web.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
