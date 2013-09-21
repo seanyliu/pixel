@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <HTML>
-<HEAD>
-<TITLE>Pixel Alchemies</TITLE>
-<STYLE>
-body, html {
-  background-color: #28415a;
+  <HEAD>
+    <TITLE>Pixel Alchemies</TITLE>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/assets/js/html5shiv.js"></script>
+      <script src="bootstrap/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <STYLE>
+
+body,html {
   height: 100%;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
 }
 
-#concept {
-  margin: 0px;
-  padding: 0px;
-  background-image: url(images/concept-art.png);
-  background-size: contain;
-  height: 100%;
-  width: 100%;
+#header {
+  background-image: url(images/concept-art-nologo.png);
+  background-size: cover;
+  background-position: center bottom;
   background-repeat: no-repeat;
+  height: 100%;
 }
-</STYLE>
-</HEAD>
-<BODY>
-<div id="concept"></div>
-</BODY>
+
+#logo {
+  padding-top: 120px;
+}
+
+#logo a {
+  text-indent: -9999px;
+}
+
+    </STYLE>
+  </HEAD>
+  <BODY>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="//code.jquery.com/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+<div id="header">
+  <div class="container">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" id="logo">
+      <a href="/"><h1 class=".col-xs-4">Pixel Alchemies <img src="images/logo-white-glow.png" class="img-responsive" alt="Pixel Alchemies"></h1></a>
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+</div>
+
+  </BODY>
 </HTML>
