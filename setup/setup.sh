@@ -2,6 +2,8 @@
 # Simple setup.sh for configuring Ubuntu 12.04 LTS EC2 instance
 # for headless setup. 
 
+# Run this from your home directory (not the pixel directory)
+
 # Install nvm: node-version manager
 # https://github.com/creationix/nvm
 sudo apt-get install -y git
