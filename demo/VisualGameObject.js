@@ -20,7 +20,10 @@ function VisualGameObject() {
     this.image = image;
   }
 
-/*
+  /**
+   * TEST FUNCTION
+   * TODO: delete
+   */
   this.update = function(dt, canvasContextHandle) {
     // TODO: make this not so low level
     var xDelta = Math.round(10 * Math.random() - 5);
@@ -43,9 +46,7 @@ function VisualGameObject() {
     } else if (this.xPos > xHiLim)  {
       this.xPos = this.xPos-2*yDelta;
     }
-
   }
-*/
 
   /**
    * Draw from top left corner, shift based on how far user has scrolled on screen
