@@ -2,7 +2,7 @@
 var GB_gameManager = null;
 var GB_thread = null;
 var g_image = new Image();
-g_image.src = "hw.png";
+g_image.src = "chain_armor_bandit.png";
 var go = null;
 
 // Kick off the script
@@ -16,8 +16,8 @@ function init(canvasId) {
   GB_thread = GB_gameManager.start();
 
   // initialize game state
-  go = new VisualGameObject();
-  go.startupVisualGameObject(g_image, 0, 0, 0, GB_gameManager);
+  go = new Player();
+  go.startupPlayer(g_image);
 }
 
 function button_start() {

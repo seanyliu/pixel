@@ -4,7 +4,7 @@
 function GameManager(canvasHandle) {
 
   /* Initialize Object */
-  this.targetFPS = 20;
+  this.FPS = 20;
 
   // Get primary canvas
   this.mainCanvas = canvasHandle;
@@ -21,9 +21,19 @@ function GameManager(canvasHandle) {
 
   // time since last frame rendered
   this.lastFrame = new Date().getTime();
+  this.xScroll = 0; // scrolling of the x axis
+  this.yScroll = 0; // scrolling of the y axis
 
   // pointer to the setInterval loop
   this.threadHandle = null;
+
+  // watch for keyboard events
+  document.onkeyup = function(event) {
+    GB_gameManager.keyUp(event);
+  }
+  document.onkeydown = function(event) {
+    GB_gameManager.keyDown(event);
+  }
 }
 
 /**
@@ -32,7 +42,7 @@ function GameManager(canvasHandle) {
 GameManager.prototype.start = function() {
   var threadHandle = setInterval(function() {
     GB_gameManager.render();
-  }, 1000/this.targetFPS);
+  }, 1000/this.FPS);
   return threadHandle;
 }
 
@@ -60,20 +70,17 @@ GameManager.prototype.render = function() {
     this.backBufferCanvas.width, this.backBufferCanvas.height
   );
 
-  debug(this.gameObjects.length);
-
   // update loop
   for (var obj in this.gameObjects) {
     if (this.gameObjects[obj].update) {
-      this.gameObjects[obj].update(dt, this.backBufferContext);
+      this.gameObjects[obj].update(dt, this.backBufferContext, this.xScroll, this.yScroll);
     }
   }
 
   // draw loop
   for (var obj in this.gameObjects) {
     if (this.gameObjects[obj].draw) {
-      // TODO: add in xScroll and yScroll
-      this.gameObjects[obj].draw(dt, this.backBufferContext, 0, 0);
+      this.gameObjects[obj].draw(dt, this.backBufferContext, 0, 0, this.xScroll, this.yScroll);
     }
   }
 
@@ -99,4 +106,26 @@ GameManager.prototype.addGameObject = function(gameObject) {
  */
 GameManager.prototype.removeGameObject = function(gameObject) {
   this.gameObjects.removeObject(gameObject);
+}
+
+/**
+ * Process keyboard controls: keyUp
+ */
+GameManager.prototype.keyUp = function(event) {
+  for (x in this.gameObjects) {
+    if (this.gameObjects[x].keyUp) {
+      this.gameObjects[x].keyUp(event);
+    }
+  }
+}
+
+/**
+ * Process keyboard controls: keyDown
+ */
+GameManager.prototype.keyDown = function(event) {
+  for (x in this.gameObjects) {
+    if (this.gameObjects[x].keyDown) {
+      this.gameObjects[x].keyDown(event);
+    }
+  }
 }
