@@ -112,9 +112,9 @@ GameManager.prototype.removeGameObject = function(gameObject) {
  * Process keyboard controls: keyUp
  */
 GameManager.prototype.keyUp = function(event) {
-  for (x in this.gameObjects) {
-    if (this.gameObjects[x].keyUp) {
-      this.gameObjects[x].keyUp(event);
+  for (var obj in this.gameObjects) {
+    if (this.gameObjects[obj].keyUp) {
+      this.gameObjects[obj].keyUp(event);
     }
   }
 }
@@ -123,9 +123,10 @@ GameManager.prototype.keyUp = function(event) {
  * Process keyboard controls: keyDown
  */
 GameManager.prototype.keyDown = function(event) {
-  for (x in this.gameObjects) {
-    if (this.gameObjects[x].keyDown) {
-      this.gameObjects[x].keyDown(event);
+  //debug("keyDown"+event.keyCode);
+  for (var obj in this.gameObjects) {
+    if (this.gameObjects[obj].keyDown) {
+      this.gameObjects[obj].keyDown(event);
     }
   }
 }
