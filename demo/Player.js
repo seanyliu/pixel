@@ -69,9 +69,6 @@ function Player() {
     }
     if (event.keyCode == 39 && this.isMovingRight) {
       // right
-      // TODO: should tell it to have idle right here
-      // otherwise updateAnimation() doesn't know which
-      // idle to use.
       this.isMovingRight = false;
       this.updateAnimation();
     }
@@ -85,6 +82,12 @@ function Player() {
     }
   }
 
+  /**
+   * updates the animation. You need idleFacingLeft because
+   * when you stop moving, we don't know whether to face the character
+   * to the left or right, since we have no glimpse into past state.
+   * We could probably add a past state...but too lazy for now.
+   */
   this.updateAnimation = function(idleFacingLeft) {
     if (this.isMovingRight && this.isMovingLeft) {
       // idle right
