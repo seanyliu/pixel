@@ -21,8 +21,8 @@ function Player() {
       0, // xPos
       0, // yPos
       0, // zOrder
-      40, // frameStart
-      48, // frameEnd
+      75, // frameStart
+      80, // frameEnd
       //0, // frameStart
       //1, // frameEnd
       64, // frameWidth
@@ -36,7 +36,6 @@ function Player() {
    * through all the objects and invokes keyUp and keyDown.
    */
   this.keyDown = function(event) {
-    debug("inner keyDown");
     if (event.keyCode == 37 && !this.isMovingLeft) {
       // left
       this.isMovingLeft = true;
@@ -125,6 +124,19 @@ function Player() {
       this.yPos += this.speed * dt;
     }
 
+    // TODO: make the access to GB_gameManager not be global
+    // modify the xScroll value to keep the player on the screen
+
+    // TODO: also give a bit more buffer so you don't have to walk to the
+    // very edge before it starts to scroll.
+    if (this.xPos > canvasContextHandle.canvas.width - this.frameWidth + xScroll) {
+      GB_gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
+    }
+    if (this.xPos < xScroll) {
+      GB_gameManager.xScroll = this.xPos;
+    }
+
+/*
     // ensure the player doesn't move out of bounds
     if (this.xPos > canvasContextHandle.canvas.width - this.frameWidth) {
       this.xPos = canvasContextHandle.canvas.width - this.frameWidth;
@@ -138,6 +150,7 @@ function Player() {
     if (this.yPos < 0) {
       this.yPos = 0;
     }
+*/
   }
 
   /**

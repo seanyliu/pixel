@@ -80,7 +80,7 @@ GameManager.prototype.render = function() {
   // draw loop
   for (var obj in this.gameObjects) {
     if (this.gameObjects[obj].draw) {
-      this.gameObjects[obj].draw(dt, this.backBufferContext, 0, 0, this.xScroll, this.yScroll);
+      this.gameObjects[obj].draw(dt, this.backBufferContext, this.xScroll, this.yScroll);
     }
   }
 
