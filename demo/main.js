@@ -22,7 +22,7 @@ function init(canvasId) {
     0, // xPos
     0, // yPos
     0, // zOrder
-    320, // width // TODO: if you make this (320, 600) it will crash!
+    600, // width // TODO: if you make this (320, 600) it will crash!
     600, // height
     1, // scrollFactor
     GB_gameManager

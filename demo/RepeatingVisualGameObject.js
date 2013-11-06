@@ -40,7 +40,7 @@ function RepeatingVisualGameObject() {
 
     // loop through until we've drawn enough tiles to fill target img
     for (var y=0; y<this.height; y += areaDrawn[1]) {
-      for (var x=0; x<this.height; x += areaDrawn[0]) {
+      for (var x=0; x<this.width; x += areaDrawn[0]) {
 
         // top left corner to start drawing next tile from
         var newPosition = [this.xPos + x, this.yPos + y];
@@ -95,9 +95,9 @@ function RepeatingVisualGameObject() {
     // draw the image
     canvasContextHandle.drawImage(this.image,
         left, top, // start clipping
-        this.image.width, this.image.height, // height/width of clipped image
-        newPosition[0], newPosition[1], // (x,y) to palce image
-        this.image.width, this.image.height); // (width,height) of image to use
+        width, height, // height/width of clipped image
+        newPosition[0], newPosition[1], // (x,y) to place image
+        width, height); // (width,height) of image to use
 
     return [width, height];
   }
