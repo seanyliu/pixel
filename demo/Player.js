@@ -1,6 +1,9 @@
 function Player() {
   // speed player moves at
   this.speed = 75;
+
+  // TODO: you shouldn't really be able to have isMovingLeft && isMovingRight
+  // this should instead be single a tri-state [left, 0, right] variable.
   this.isMovingLeft = false;
   this.isMovingRight = false;
   this.isMovingUp = false;
@@ -34,19 +37,21 @@ function Player() {
    */
   this.keyDown = function(event) {
     debug("inner keyDown");
-    if (event.keyCode == 37) {
+    if (event.keyCode == 37 && !this.isMovingLeft) {
       // left
       this.isMovingLeft = true;
+      this.updateAnimation();
     }
-    if (event.keyCode == 39) {
+    if (event.keyCode == 39 && !this.isMovingRight) {
       // right
       this.isMovingRight = true;
+      this.updateAnimation();
     }
-    if (event.keyCode == 38) {
+    if (event.keyCode == 38 && !this.isMovingUp) {
       // up
       this.isMovingUp = true;
     }
-    if (event.keyCode == 40) {
+    if (event.keyCode == 40 && !this.isMovingDown) {
       // down
       this.isMovingDown = true;
     }
@@ -57,21 +62,46 @@ function Player() {
    * through all the objects and invokes keyUp and keyDown.
    */
   this.keyUp = function(event) {
-    if (event.keyCode == 37) {
+    if (event.keyCode == 37 && this.isMovingLeft) {
       // left
       this.isMovingLeft = false;
+      this.updateAnimation(true);
     }
-    if (event.keyCode == 39) {
+    if (event.keyCode == 39 && this.isMovingRight) {
       // right
+      // TODO: should tell it to have idle right here
+      // otherwise updateAnimation() doesn't know which
+      // idle to use.
       this.isMovingRight = false;
+      this.updateAnimation();
     }
-    if (event.keyCode == 38) {
+    if (event.keyCode == 38 && this.isMovingUp) {
       // up
       this.isMovingUp = false;
     }
-    if (event.keyCode == 40) {
+    if (event.keyCode == 40 && this.isMovingDown) {
       // down
       this.isMovingDown = false;
+    }
+  }
+
+  this.updateAnimation = function(idleFacingLeft) {
+    if (this.isMovingRight && this.isMovingLeft) {
+      // idle right
+      this.setAnimation(75, 80);
+    } else if (this.isMovingRight) {
+      this.setAnimation(90, 98);
+    } else if (this.isMovingLeft) {
+      this.setAnimation(40, 48);
+    } else {
+      // idle
+      if (idleFacingLeft) {
+        // idle left
+        this.setAnimation(25, 30);
+      } else {
+        // idle right
+        this.setAnimation(75, 80);
+      }
     }
   }
 

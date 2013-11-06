@@ -42,14 +42,13 @@ function AnimatedVisualGameObject() {
     this.frameRowCount = image.height / frameHeight;
 
     // kick off the animation
-    this.setAnimation(image, frameStart, frameEnd);
+    this.setAnimation(frameStart, frameEnd);
   }
 
   /**
    * Sets the animation to be played.
    */
   this.setAnimation = function(
-      image,
       frameStart, // frame to start with
       frameEnd // last frame
       ) {
