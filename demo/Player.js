@@ -18,10 +18,10 @@ function Player() {
       0, // xPos
       0, // yPos
       0, // zOrder
-      //40, // frameStart
-      //48, // frameEnd
-      0, // frameStart
-      1, // frameEnd
+      40, // frameStart
+      48, // frameEnd
+      //0, // frameStart
+      //1, // frameEnd
       64, // frameWidth
       64, // frameHeight
       GB_gameManager
