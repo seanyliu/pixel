@@ -2,9 +2,10 @@
 var GB_gameManager = null;
 var GB_thread = null;
 var g_image = new Image();
-g_image.src = "chain_armor_bandit.png";
+//g_image.src = "chain_armor_bandit.png";
+g_image.src = "pixel-man.png";
 var g_back2 = new Image();
-g_back2.src = "baum.png";
+g_back2.src = "black-stars.png";
 
 // Kick off the script
 window.onload = function() {
