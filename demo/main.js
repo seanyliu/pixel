@@ -6,6 +6,8 @@ g_image.src = "chain_armor_bandit.png";
 //g_image.src = "pixel-man.png";
 var g_back2 = new Image();
 g_back2.src = "black-stars.png";
+var g_block = new Image();
+g_block.src = "BlockA0.png";
 
 // Kick off the script
 window.onload = function() {
@@ -16,6 +18,9 @@ function init(canvasId) {
   var myCanvasHandle = document.getElementById(canvasId);
   GB_gameManager = new GameManager(myCanvasHandle);
   GB_thread = GB_gameManager.start();
+
+  var level = new Level();
+  level.startupLevel(GB_gameManager);
 
   var bg = new RepeatingVisualGameObject();
   bg.startupRepeatingVisualGameObject(
