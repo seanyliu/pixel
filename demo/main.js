@@ -36,7 +36,7 @@ function init(canvasId) {
 
   // initialize game state
   var go = new Player();
-  go.startupPlayer(g_image);
+  go.startupPlayer(g_image, level);
 }
 
 function button_start() {
