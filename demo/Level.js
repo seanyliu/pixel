@@ -29,4 +29,19 @@ function Level() {
       }
     }
   }
+
+  /**
+   * Returns the block under the specified x position
+   */
+  this.currentBlock = function(x) {
+    return parseInt(x/this.blockWidth);
+  }
+
+  /**
+   * Returns the height of the ground under the specified block
+   */
+  this.groundHeight = function(blockIndex) {
+    if (blockIndex < 0 || blockIndex > this.blocks.length) return 0;
+    return this.blocks[blockIndex] * this.blockHeight;
+  }
 }
