@@ -19,8 +19,8 @@ function Player() {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
-      0, // xPos
-      0, // yPos
+      300, // xPos
+      400 - 64 - 48, // yPos
       0, // zOrder
       75, // frameStart
       80, // frameEnd
@@ -49,6 +49,8 @@ function Player() {
       this.isMovingRight = true;
       this.updateAnimation();
     }
+/**
+ * Disable up and down for now
     if (event.keyCode == 38 && !this.isMovingUp) {
       // up
       this.isMovingUp = true;
@@ -57,6 +59,7 @@ function Player() {
       // down
       this.isMovingDown = true;
     }
+*/
   }
 
   /**
