@@ -157,11 +157,17 @@ function Player() {
       } while (collision)
     }
 
-
-    // TODO: also give a bit more buffer so you don't have to walk to the
-    // very edge before it starts to scroll.
+    // keep the player bound to the level
+    if (this.xPos > this.level.blocks.length * this.level.blockWidth - this.frameWidth - 1) {
+      this.xPos = this.level.blocks.length * this.level.blockWidth - this.frameWidth - 1;
+    }
+    if (this.xPos < 0) {
+      this.xPos = 0;
+    }
 
     // Scroll the page
+    // TODO: also give a bit more buffer so you don't have to walk to the
+    // very edge before it starts to scroll.
     if (this.xPos > 
           (canvasContextHandle.canvas.width - this.frameWidth + xScroll)) {
       GB_gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
