@@ -2,6 +2,19 @@ function Player() {
   // speed player moves at
   this.speed = 75;
 
+  // jumping stats
+  this.jumpHeight = 64;
+  this.halfPI = Math.PI / 2;
+  // amount of time to spend in the air
+  this.jumpHangTime = 0.5;
+  // speed to pregress along the sine wave
+  this.jumpSinWaveSpeed = this.halfPI / this.jumpHangTime;
+  // current position along the sine wave
+  this.jumpSinWavePos = 0;
+  // rate to fall at
+  this.fallMultiplier = 1.5;
+  this.grounded = true;
+
   // TODO: you shouldn't really be able to have isMovingLeft && isMovingRight
   // this should instead be single a tri-state [left, 0, right] variable.
   this.isMovingLeft = false;
@@ -48,6 +61,11 @@ function Player() {
       // right
       this.isMovingRight = true;
       this.updateAnimation();
+    }
+    // TODO: change grounded to be opposite so it's consistently !this.isMovingUp
+    if (event.keyCode == 38 && this.grounded) {
+      this.grounded = false;
+      this.jumpSinWavePos = 0;
     }
 /**
  * Disable up and down for now
@@ -177,6 +195,21 @@ function Player() {
     }
     if (this.xPos < xScroll) {
       GB_gameManager.xScroll = this.xPos;
+    }
+
+    // if the player is jumping or falling, move along the sine wave
+    if (!this.grounded) {
+      var lastHeight = this.jumpSinWavePos;
+      // the new position on the sine wave
+      this.jumpSinWavePos += this.jumpSigneWaveSpeed * dt;
+
+      // we have fallen off the bottom of the sine wave, so continue
+      // moving at a predetermined speed
+      if (this.jumpSinWavePos >= Math.PI) {
+        // TODO: CONTINUE;
+        //this.y += this.jumpHeight / this.jumpHangTime * 
+      } else {
+      }
     }
 
 /*
