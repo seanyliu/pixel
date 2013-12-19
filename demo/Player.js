@@ -201,16 +201,48 @@ function Player() {
     if (!this.grounded) {
       var lastHeight = this.jumpSinWavePos;
       // the new position on the sine wave
-      this.jumpSinWavePos += this.jumpSigneWaveSpeed * dt;
+      this.jumpSinWavePos += this.jumpSinWaveSpeed * dt;
 
-      // we have fallen off the bottom of the sine wave, so continue
-      // moving at a predetermined speed
       if (this.jumpSinWavePos >= Math.PI) {
-        // TODO: CONTINUE;
-        //this.y += this.jumpHeight / this.jumpHangTime * 
+        // we have fallen off the bottom of the sine wave, so continue
+        // moving at a predetermined speed
+        this.yPos += this.jumpHeight / this.jumpHangTime * this.fallMultiplier * dt;
       } else {
+        // else move along the sine wave
+        this.yPos -= (Math.sin(this.jumpSinWavePos) - Math.sin(lastHeight)) * this.jumpHeight;
       }
     }
+
+    // TODO: make the collision code modular
+    // check for collisions to stop the jump
+    // left side
+    var currentBlock1 = this.level.currentBlock(this.xPos);
+    // right side
+    var currentBlock2 = this.level.currentBlock(this.xPos + this.frameWidth);
+    // ground height below left side
+    var groundHeight1 = this.level.groundHeight(currentBlock1);
+    // ground height below right side
+    var groundHeight2 = this.level.groundHeight(currentBlock2);
+    // highest point under player
+    var maxGroundHeight = groundHeight1 > groundHeight2 ? groundHeight1 : groundHeight2;
+    // players height (relative to bottom of screen)
+    // TODO: fix this.image.height in case you have a spriate that is larger than the char's bounding box
+    var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
+
+    // we hit ground
+    if (maxGroundHeight >= playerHeight) {
+      // TODO: don't use this.image.height
+      this.yPos = canvasContextHandle.canvas.height - maxGroundHeight - this.frameHeight;
+      this.grounded = true;
+      this.jumpSinWavePos = 0;
+    } else if (this.grounded) {
+      // we walked off a cliff
+      this.grounded = false;
+      // start falling down the size wave from the top
+      this.jumpSinWavePos = this.halfPI;
+    }
+
+
 
 /*
     // ensure the player doesn't move out of bounds
