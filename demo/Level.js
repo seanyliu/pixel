@@ -11,7 +11,7 @@ function Level() {
    */
   this.startupLevel = function(gameManager) {
     this.blocks = [
-      3, 2, 1, 1, 1, 1, 1, 1, 1, 2, 3
+      3, 2, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 3, 2, 1
     ];
     this.addBlocks(gameManager);
   }
@@ -25,7 +25,7 @@ function Level() {
         // TODO: store the block objects so you can shut them down
         // if needed!
         var vgo = new VisualGameObject();
-        vgo.startupVisualGameObject(g_block, x * this.blockWidth, 400 - (y + 1) * this.blockHeight, 4, gameManager);
+        vgo.startupVisualGameObject(g_block, x * this.blockWidth, gameManager.mainContext.canvas.height - (y + 1) * this.blockHeight, 4, gameManager);
       }
     }
   }

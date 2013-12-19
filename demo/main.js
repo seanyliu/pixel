@@ -11,8 +11,12 @@ g_block.src = "BlockA0.png";
 
 // Kick off the script
 window.onload = function() {
-  init("pixel_canvas");
-};
+  var canvasId = "pixel_canvas";
+  var canvasElt = document.getElementById(canvasId);
+  canvasElt.height = document.body.offsetHeight;
+  canvasElt.width = document.body.offsetWidth;
+  init(canvasId);
+}
 
 function init(canvasId) {
   var myCanvasHandle = document.getElementById(canvasId);
@@ -28,8 +32,8 @@ function init(canvasId) {
     0, // xPos
     0, // yPos
     0, // zOrder
-    600, // width // TODO: if you make this (320, 600) it will crash!
-    600, // height
+    GB_gameManager.mainContext.canvas.width, // width
+    GB_gameManager.mainContext.canvas.height, // height
     1, // scrollFactor
     GB_gameManager
   );
