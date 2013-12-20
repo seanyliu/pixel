@@ -12,6 +12,8 @@
     <script type="text/javascript" src="AnimatedVisualGameObject.js"></script>
     <script type="text/javascript" src="PowerupAnimatedVisualGameObject.js"></script>
     <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="Rectangle.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
     <style>
       html, body {
         margin: 0px;
@@ -21,9 +23,18 @@
         overflow: hidden;
         background-color: #111;
         position: relative;
+        color: #fff;
       }
 
-      #pixel_canvas {
+      #score-container {
+        font-family: 'VT323';
+        position: absolute;
+        bottom: -20px;
+        right: 30px;
+        text-transform: uppercase;
+      }
+
+      #canvas-container {
         position: fixed;
         top: 50%;
         margin-top: -300px;
@@ -31,7 +42,12 @@
     </style>
   </head>
   <body>
-    <canvas id="pixel_canvas" width="600" height="600"><p>Browser does not support canvas.</p></canvas>
+    <div id="canvas-container">
+      <canvas id="pixel_canvas" width="600" height="600"><p>Browser does not support canvas.</p></canvas>
+      <div id="score-container">
+        Score: <span id="score">0</span>
+      </div>
+    </div>
     <!--
     <input type="button" value="Start" onClick="button_start()">
     <input type="button" value="Stop" onClick="button_stop()">

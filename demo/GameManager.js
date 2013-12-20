@@ -130,3 +130,8 @@ GameManager.prototype.keyDown = function(event) {
     }
   }
 }
+
+GameManager.prototype.updateScore = function() {
+  var score = document.getElementById("score");
+  score.innerHTML = String(g_score);
+}

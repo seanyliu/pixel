@@ -42,7 +42,14 @@ function PowerupAnimatedVisualGameObject() {
     var lastSinWavePos = this.sinWavePos;
     this.sinWavePos += this.bounceSpeed * dt;
     this.yPos += (Math.sin(this.sinWavePos) - Math.sin(lastSinWavePos)) * this.bounceHeight;
-    // TODO: add intersect - CONTINUE HERE
+
+    // TODO: this should really be moved out into a collision detection function
+    if (this.collisionArea().intersects(g_player.collisionArea())) {
+      this.shutdownPowerupAnimatedVisualGameObject();
+      g_score += this.value;
+      // TODO: make this not a global call...
+      GB_gameManager.updateScore();
+    }
   }
 
   /**

@@ -86,6 +86,18 @@ function AnimatedVisualGameObject() {
   }
 
   /**
+   * Get the collision area. Override the VisualGameObject's version
+   * since you may have frames in the image
+   */
+  this.collisionArea = function() {
+    // TODO: instead of constantly creating a new rectangle, we should
+    // have just one.
+    var rect = new Rectangle();
+    rect.startupRectangle(this.xPos, this.yPos, this.frameWidth, this.frameHeight, this.gameManager);
+    return rect;
+  }
+
+  /**
    * Kill object.
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!

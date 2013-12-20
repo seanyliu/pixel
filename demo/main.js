@@ -17,6 +17,9 @@ g_block.src = "";
 var g_gem = new Image();
 g_gem.src = "powerup.png";
 
+var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
+var g_score = 0; // TODO: this should be attached to the GameManager...
+
 // Kick off the script
 window.onload = function() {
   var canvasId = "pixel_canvas";
@@ -71,6 +74,7 @@ function init(canvasId) {
   // initialize game state
   var go = new Player();
   go.startupPlayer(g_image, level);
+  g_player = go;
 }
 
 function button_start() {

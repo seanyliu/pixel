@@ -28,6 +28,17 @@ function VisualGameObject() {
   }
 
   /**
+   * Returns a rectangle for collision detection
+   */
+  this.collisionArea = function() {
+    // TODO: instead of constantly creating a new rectangle, we should
+    // have just one.
+    var rect = new Rectangle();
+    rect.startupRectangle(this.xPos, this.yPos, this.image.width, this.image.height, this.gameManager);
+    return rect;
+  }
+
+  /**
    * Kill object.
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
