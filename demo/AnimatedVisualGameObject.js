@@ -36,6 +36,7 @@ function AnimatedVisualGameObject() {
 
     // do this object's startup
     this.timeBetweenFrames = 1/gameManager.FPS;
+    //this.timeBetweenFrames = 1/gameManager.FPS;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
     this.frameColCount = image.width / frameWidth;

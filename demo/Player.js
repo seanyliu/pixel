@@ -33,14 +33,14 @@ function Player() {
     this.startupAnimatedVisualGameObject(
       image,
       300, // xPos
-      400 - 64 - 48, // yPos
+      400 - 64 - 120, // yPos
       0, // zOrder
-      75, // frameStart
-      80, // frameEnd
+      0, // frameStart
+      0, // frameEnd
       //0, // frameStart
       //1, // frameEnd
-      64, // frameWidth
-      64, // frameHeight
+      120, // frameWidth
+      120, // frameHeight
       GB_gameManager
     );
     // TODO: put the level in the game manager instead of player
@@ -114,19 +114,19 @@ function Player() {
   this.updateAnimation = function(idleFacingLeft) {
     if (this.isMovingRight && this.isMovingLeft) {
       // idle right
-      this.setAnimation(75, 80);
+      this.setAnimation(0, 0);
     } else if (this.isMovingRight) {
-      this.setAnimation(90, 98);
+      this.setAnimation(0, 3);
     } else if (this.isMovingLeft) {
-      this.setAnimation(40, 48);
+      this.setAnimation(4, 7);
     } else {
       // idle
       if (idleFacingLeft) {
         // idle left
-        this.setAnimation(25, 30);
+        this.setAnimation(7, 7);
       } else {
         // idle right
-        this.setAnimation(75, 80);
+        this.setAnimation(0, 0);
       }
     }
   }
