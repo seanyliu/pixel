@@ -11,10 +11,14 @@ function Level() {
    */
   this.startupLevel = function(gameManager) {
     this.blocks = [
-//      3, 2, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 3, 2, 1
+      // 3, 2, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 3, 2, 1
       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     ];
+    this.powerups = [
+      'Gem', , , , , 'Gem', , , , 'Gem'
+    ];
     this.addBlocks(gameManager);
+    this.addPowerups(gameManager);
   }
 
   /**
@@ -27,6 +31,32 @@ function Level() {
         // if needed!
         var vgo = new VisualGameObject();
         vgo.startupVisualGameObject(g_block, x * this.blockWidth, gameManager.mainContext.canvas.height - (y + 1) * this.blockHeight, 4, gameManager);
+      }
+    }
+  }
+
+  /**
+   * Adds powerups to the screen
+   */
+  this.addPowerups = function(gameManager) {
+    for (var x=0; x<this.blocks.length; x++) {
+      if (this.powerups[x]) {
+        var xPosition = x * this.blockWidth + this.blockWidth/2;
+        var yPosition = gameManager.mainContext.canvas.height - this.groundHeight(x);
+        switch (this.powerups[x]) {
+          case 'Gem':
+            new PowerupAnimatedVisualGameObject().startupPowerupAnimatedVisualGameObject(
+              10, // value
+              g_gem, // image
+              xPosition - g_gem.width, // x position
+              yPosition - g_gem.height, // y position
+              4, // zOrder
+              1, // frameCount
+              1, // fps
+              gameManager
+            );
+            break;
+        }
       }
     }
   }

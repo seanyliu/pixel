@@ -14,6 +14,8 @@ g_back4.src = "bg-ground.png";
 var g_block = new Image();
 //g_block.src = "BlockA0.png";
 g_block.src = "";
+var g_gem = new Image();
+g_gem.src = "powerup.png";
 
 // Kick off the script
 window.onload = function() {
