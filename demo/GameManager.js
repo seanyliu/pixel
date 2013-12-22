@@ -13,11 +13,11 @@ function GameManager(canvasHandle) {
   // resource loading
   this.resourcesLoaded = false;
   // current color of the loading screen
-  this.loadingScreenCol = 0;
+  this.loadingScreenCol = 255;
   // direction of the changes to loading screen color: + = white, - = black
-  this.loadingScreenColDirection = 1;
+  this.loadingScreenColDirection = -1;
   // how quickly to change the loading screen color per second
-  this.loadingScreenColSpeed = 255;
+  this.loadingScreenColSpeed = 10;
 
   // create buffer
   this.backBufferCanvas = document.createElement('canvas');
