@@ -100,7 +100,7 @@ GameManager.prototype.render = function() {
         this.loadingScreenColDirection = 1;
       }
       this.mainContext.fillStyle = "rgb(" + parseInt(this.loadingScreenCol) + "," + parseInt(this.loadingScreenCol) + "," + parseInt(this.loadingScreenCol) + ")";
-      this.mainContext.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.mainContext.fillRect(0, 0, this.mainCanvas.width, this.mainCanvas.height);
     }
   }
 
