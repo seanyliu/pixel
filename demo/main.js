@@ -1,6 +1,7 @@
 // Define globals
 var GB_gameManager = null;
 var GB_thread = null;
+var GB_resourceManager = null;
 var g_image = new Image();
 //g_image.src = "chain_armor_bandit.png";
 g_image.src = "character2-sprites.png";
@@ -31,6 +32,20 @@ window.onload = function() {
 
 function init(canvasId) {
   var myCanvasHandle = document.getElementById(canvasId);
+
+  // create a new Resource Manager
+  GB_resourceManager = new ResourceManager();
+  GB_resourceManager.startupResourceManager(
+    [
+      { name: "character", src: "character2-sprites.png" },
+      { name: "bgSky", src: "bg-sky.png" },
+      { name: "bgTrees", src: "bg-trees.png" },
+      { name: "bgGround", src: "bg-ground.png" },
+      { name: "block", src: "" },
+      { name: "powerup", src: "powerup.png" }
+    ]
+  );
+
   GB_gameManager = new GameManager(myCanvasHandle);
   GB_thread = GB_gameManager.start();
 

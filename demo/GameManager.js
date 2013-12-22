@@ -8,13 +8,22 @@ function GameManager(canvasHandle) {
 
   // Get primary canvas
   this.mainCanvas = canvasHandle;
-  this.mainContext = this.mainCanvas.getContext('2d');
+  this.mainContext = null;
+
+  // resource loading
+  this.resourcesLoaded = false;
+  // current color of the loading screen
+  this.loadingScreenCol = 0;
+  // direction of the changes to loading screen color: + = white, - = black
+  this.loadingScreenColDirection = 1;
+  // how quickly to change the loading screen color per second
+  this.loadingScreenColSpeed = 255;
 
   // create buffer
   this.backBufferCanvas = document.createElement('canvas');
   this.backBufferCanvas.width = this.mainCanvas.width;
   this.backBufferCanvas.height = this.mainCanvas.height;
-  this.backBufferContext = this.backBufferCanvas.getContext('2d');
+  this.backBufferContext = null;
 
   // array of game objects
   this.gameObjects = new Array();
@@ -40,10 +49,17 @@ function GameManager(canvasHandle) {
  * start rendering
  */
 GameManager.prototype.start = function() {
-  var threadHandle = setInterval(function() {
-    GB_gameManager.render();
-  }, 1000/this.FPS);
-  return threadHandle;
+  // old ie doesn't support canvas
+  if (this.mainCanvas.getContext) {
+    this.mainContext = this.mainCanvas.getContext('2d');
+    this.backBufferContext = this.backBufferCanvas.getContext('2d');
+    var threadHandle = setInterval(function() {
+      GB_gameManager.render();
+    }, 1000/this.FPS);
+    return threadHandle;
+  } else {
+    return null;
+  }
 }
 
 /**
@@ -65,32 +81,59 @@ GameManager.prototype.render = function() {
   var dt = (thisFrame - this.lastFrame)/1000;
   this.lastFrame = thisFrame;
 
-  // Clear back buffer
-  this.backBufferContext.clearRect(0, 0,
-    this.backBufferCanvas.width, this.backBufferCanvas.height
-  );
-
-  // update loop
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].update) {
-      this.gameObjects[obj].update(dt, this.backBufferContext, this.xScroll, this.yScroll);
+  if (!this.resourcesLoaded) {
+    var numLoaded = 0;
+    for (i=0; i<GB_resourceManager.imageProperties.length; i++) {
+      if (GB_resourceManager[GB_resourceManager.imageProperties[i]].complete) {
+        numLoaded++;
+      }
+    }
+    if (numLoaded == GB_resourceManager.imageProperties.length) {
+      this.resourcesLoaded = true;
+    } else {
+      this.loadingScreenCol += this.loadingScreenColDirection * this.loadingScreenColSpeed * dt;
+      if (this.loadingScreenCol > 255) {
+        this.loadingScreenCol = 255;
+        this.loadingScreenColDirection = -1;
+      } else if (this.loadingScreenCol < 0) {
+        this.loadingScreenCol = 0;
+        this.loadingScreenColDirection = 1;
+      }
+      this.mainContext.fillStyle = "rgb(" + parseInt(this.loadingScreenCol) + "," + parseInt(this.loadingScreenCol) + "," + parseInt(this.loadingScreenCol) + ")";
+      this.mainContext.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
-  // draw loop
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].draw) {
-      this.gameObjects[obj].draw(dt, this.backBufferContext, this.xScroll, this.yScroll);
+  if (this.resourcesLoaded) {
+
+    // Clear back buffer
+    this.backBufferContext.clearRect(0, 0,
+      this.backBufferCanvas.width, this.backBufferCanvas.height
+    );
+
+    // update loop
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].update) {
+        this.gameObjects[obj].update(dt, this.backBufferContext, this.xScroll, this.yScroll);
+      }
     }
+
+    // draw loop
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].draw) {
+        this.gameObjects[obj].draw(dt, this.backBufferContext, this.xScroll, this.yScroll);
+      }
+    }
+
+    // Clear the main screen
+    this.mainContext.clearRect(0, 0,
+      this.backBufferCanvas.width, this.backBufferCanvas.height
+    );
+
+    // draw buffer to main screen
+    this.mainContext.drawImage(this.backBufferCanvas, 0, 0);
+
   }
-
-  // Clear the main screen
-  this.mainContext.clearRect(0, 0,
-    this.backBufferCanvas.width, this.backBufferCanvas.height
-  );
-
-  // draw buffer to main screen
-  this.mainContext.drawImage(this.backBufferCanvas, 0, 0);
 }
 
 /**
