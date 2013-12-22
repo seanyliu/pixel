@@ -6,6 +6,15 @@ var GB_resourceManager = null;
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
 
+// pause the game if the user isn't focused on the current window
+$(window).blur(function() {
+  button_stop();
+});
+
+$(window).focus(function() {
+  button_start();
+});
+
 // Kick off the script
 window.onload = function() {
   var canvasId = "pixel_canvas";

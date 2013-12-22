@@ -126,6 +126,8 @@ GameManager.prototype.render = function() {
       }
     }
 
+    // TODO: add an intersect loop here
+
     // Clear the main screen
     this.mainContext.clearRect(0, 0,
       this.backBufferCanvas.width, this.backBufferCanvas.height
