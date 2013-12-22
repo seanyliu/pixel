@@ -13,6 +13,7 @@
     <script type="text/javascript" src="RepeatingVisualGameObject.js"></script>
     <script type="text/javascript" src="AnimatedVisualGameObject.js"></script>
     <script type="text/javascript" src="PowerupAnimatedVisualGameObject.js"></script>
+    <script type="text/javascript" src="Ant.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Rectangle.js"></script>
     <script type="text/javascript" src="ResourceManager.js"></script>
@@ -24,9 +25,9 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background-color: #111;
+        background-color: #fff;
         position: relative;
-        color: #fff;
+        color: #333;
       }
 
       #score-container {
@@ -38,15 +39,13 @@
       }
 
       #canvas-container {
-        position: fixed;
-        top: 50%;
-        margin-top: -300px;
+        top: 0%;
       }
     </style>
   </head>
   <body>
     <div id="canvas-container">
-      <canvas id="pixel_canvas" width="600" height="600"><p>Browser does not support canvas.</p></canvas>
+      <canvas id="pixel_canvas" width="600" height="400"><p>Browser does not support canvas.</p></canvas>
       <div id="score-container">
         Score: <span id="score">0</span>
       </div>
