@@ -11,7 +11,7 @@ function GameManager(canvasHandle) {
   this.mainContext = null;
 
   // resource loading
-  this.resourcesLoaded = false;
+  //this.resourcesLoaded = false; // in ResourceManager
   // current color of the loading screen
   this.loadingScreenCol = 255;
   // direction of the changes to loading screen color: + = white, - = black
@@ -81,7 +81,7 @@ GameManager.prototype.render = function() {
   var dt = (thisFrame - this.lastFrame)/1000;
   this.lastFrame = thisFrame;
 
-  if (!this.resourcesLoaded) {
+  if (!GB_resourceManager.resourcesLoaded) {
     var numLoaded = 0;
     for (i=0; i<GB_resourceManager.imageProperties.length; i++) {
       if (GB_resourceManager[GB_resourceManager.imageProperties[i]].complete) {
@@ -89,7 +89,8 @@ GameManager.prototype.render = function() {
       }
     }
     if (numLoaded == GB_resourceManager.imageProperties.length) {
-      this.resourcesLoaded = true;
+      GB_resourceManager.resourcesLoaded = true;
+      initAfterLoading(); // TODO: fix how this call is done.  Should be part of main.js
     } else {
       this.loadingScreenCol += this.loadingScreenColDirection * this.loadingScreenColSpeed * dt;
       if (this.loadingScreenCol > 255) {
@@ -104,7 +105,7 @@ GameManager.prototype.render = function() {
     }
   }
 
-  if (this.resourcesLoaded) {
+  if (GB_resourceManager.resourcesLoaded) {
 
     // Clear back buffer
     this.backBufferContext.clearRect(0, 0,

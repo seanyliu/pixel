@@ -2,21 +2,6 @@
 var GB_gameManager = null;
 var GB_thread = null;
 var GB_resourceManager = null;
-var g_image = new Image();
-//g_image.src = "chain_armor_bandit.png";
-g_image.src = "character2-sprites.png";
-//g_image.src = "pixel-man.png";
-var g_back2 = new Image();
-g_back2.src = "bg-sky.png";
-var g_back3 = new Image();
-g_back3.src = "bg-trees.png";
-var g_back4 = new Image();
-g_back4.src = "bg-ground.png";
-var g_block = new Image();
-//g_block.src = "BlockA0.png";
-g_block.src = "";
-var g_gem = new Image();
-g_gem.src = "powerup.png";
 
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
@@ -49,12 +34,16 @@ function init(canvasId) {
   GB_gameManager = new GameManager(myCanvasHandle);
   GB_thread = GB_gameManager.start();
 
+}
+
+function initAfterLoading() {
+
   var level = new Level();
   level.startupLevel(GB_gameManager);
 
   var bg = new RepeatingVisualGameObject();
   bg.startupRepeatingVisualGameObject(
-    g_back2, // image
+    GB_resourceManager.bgSky, // image
     0, // xPos
     0, // yPos
     -2, // zOrder
@@ -65,7 +54,7 @@ function init(canvasId) {
   );
   var bg3 = new RepeatingVisualGameObject();
   bg3.startupRepeatingVisualGameObject(
-    g_back3, // image
+    GB_resourceManager.bgTrees, // image
     0, // xPos
     0, // yPos
     0, // zOrder
@@ -76,7 +65,7 @@ function init(canvasId) {
   );
   var bg4 = new RepeatingVisualGameObject();
   bg4.startupRepeatingVisualGameObject(
-    g_back4, // image
+    GB_resourceManager.bgGround, // image
     0, // xPos
     0, // yPos
     -1, // zOrder
@@ -88,7 +77,7 @@ function init(canvasId) {
 
   // initialize game state
   var go = new Player();
-  go.startupPlayer(g_image, level);
+  go.startupPlayer(GB_resourceManager.character, level);
   g_player = go;
 }
 

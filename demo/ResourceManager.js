@@ -10,6 +10,7 @@ function ResourceManager() {
    * elimination) those that are not.
    */
   this.imageProperties = null;
+  this.resourcesLoaded = false;
   this.startupResourceManager = function(images) {
     this.imageProperties = new Array();
 

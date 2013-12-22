@@ -30,7 +30,7 @@ function Level() {
         // TODO: store the block objects so you can shut them down
         // if needed!
         var vgo = new VisualGameObject();
-        vgo.startupVisualGameObject(g_block, x * this.blockWidth, gameManager.mainContext.canvas.height - (y + 1) * this.blockHeight, 4, gameManager);
+        vgo.startupVisualGameObject(GB_resourceManager.block, x * this.blockWidth, gameManager.mainContext.canvas.height - (y + 1) * this.blockHeight, 4, gameManager);
       }
     }
   }
@@ -47,9 +47,9 @@ function Level() {
           case 'Gem':
             new PowerupAnimatedVisualGameObject().startupPowerupAnimatedVisualGameObject(
               10, // value
-              g_gem, // image
-              xPosition - g_gem.width, // x position
-              yPosition - g_gem.height, // y position
+              GB_resourceManager.powerup, // image
+              xPosition - GB_resourceManager.powerup.width, // x position
+              yPosition - GB_resourceManager.powerup.height, // y position
               4, // zOrder
               1, // frameCount
               1, // fps
