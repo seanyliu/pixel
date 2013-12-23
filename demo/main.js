@@ -1,7 +1,6 @@
 // Define globals
 var GB_gameManager = null;
-var GB_thread = null;
-var GB_resourceManager = null;
+var GB_thread = null; // TODO: kill this variable
 
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
@@ -27,9 +26,10 @@ window.onload = function() {
 function init(canvasId) {
   var myCanvasHandle = document.getElementById(canvasId);
 
+  // TODO: make the resource manager part of the game manager?
   // create a new Resource Manager
-  GB_resourceManager = new ResourceManager();
-  GB_resourceManager.startupResourceManager(
+  var resourceManager = new ResourceManager();
+  resourceManager.startupResourceManager(
     [
       { name: "character", src: "assets/character2-sprites.png" },
       { name: "bgSky", src: "assets/bg-sky.png" },
@@ -38,15 +38,19 @@ function init(canvasId) {
       { name: "block", src: "" },
       { name: "powerup", src: "assets/powerup.png" },
       { name: "monster", src: "assets/monster.png" }
-    ]
+    ],
+    myCanvasHandle,
+    function() {
+      initAfterResourcesLoaded(canvasId);
+    }
   );
-
-  GB_gameManager = new GameManager(myCanvasHandle);
-  GB_thread = GB_gameManager.start();
-
 }
 
-function initAfterLoading() {
+function initAfterResourcesLoaded(canvasId) {
+  var myCanvasHandle = document.getElementById(canvasId);
+  // start the game manager
+  GB_gameManager = new GameManager(myCanvasHandle);
+  GB_thread = GB_gameManager.start();
 
   var level = new Level();
   level.startupLevel(GB_gameManager);
