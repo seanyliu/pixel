@@ -77,7 +77,6 @@ function Creature() {
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    // TODO: make the access to GB_gameManager not be global
     // modify the xScroll value to keep the player on the screen
     if (this.isMovingLeft) {
       this.xPos -= this.speed * dt;
@@ -133,10 +132,10 @@ function Creature() {
     // very edge before it starts to scroll.
     if (this.xPos > 
           (canvasContextHandle.canvas.width - this.frameWidth + xScroll)) {
-      GB_gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
+      gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
     }
     if (this.xPos < xScroll) {
-      GB_gameManager.xScroll = this.xPos;
+      gameManager.xScroll = this.xPos;
     }
 
     // if the player is jumping or falling, move along the sine wave

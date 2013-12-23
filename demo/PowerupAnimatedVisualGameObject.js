@@ -47,8 +47,7 @@ function PowerupAnimatedVisualGameObject() {
     if (this.collisionArea().intersects(g_player.collisionArea())) {
       this.shutdownPowerupAnimatedVisualGameObject();
       this.gameManager.gameState["score"] += this.value;
-      // TODO: make this not a global call...
-      GB_gameManager.updateScore();
+      this.gameManager.updateScore(); // updates the score on the screen
     }
   }
 
