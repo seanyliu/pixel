@@ -1,6 +1,6 @@
 function Creature() {
   // speed creature moves at
-  this.speed = 75;
+  this.speed = 30;
 
   // jumping stats
   this.jumpHeight = 64;
@@ -41,20 +41,6 @@ function Creature() {
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
     this.setAnimation(0, 0); // idle right
     this.xPos += this.speed * dt;
-
-    // modify the xScroll value to keep the player on the screen
-    if (this.isMovingLeft) {
-      this.xPos -= this.speed * dt;
-    }
-    if (this.isMovingRight) {
-      this.xPos += this.speed * dt;
-    }
-    if (this.isMovingUp) {
-      this.yPos -= this.speed * dt;
-    }
-    if (this.isMovingDown) {
-      this.yPos += this.speed * dt;
-    }
 
     // XOR operation
     // test for collision if the player is moving left or right (and not
