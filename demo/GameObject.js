@@ -17,7 +17,7 @@ function GameObject() {
     this.yPos = yPos;
     this.zOrder = zOrder;
     this.gameManager = gameManager;
-    gameManager.addGameObject(this);
+    this.gameManager.addGameObject(this);
   }
 
   /**

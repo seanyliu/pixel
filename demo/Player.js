@@ -190,10 +190,10 @@ function Player() {
     // very edge before it starts to scroll.
     if (this.xPos > 
           (canvasContextHandle.canvas.width - this.frameWidth + xScroll)) {
-      gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
+      this.gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
     }
     if (this.xPos < xScroll) {
-      gameManager.xScroll = this.xPos;
+      this.gameManager.xScroll = this.xPos;
     }
 
     // if the player is jumping or falling, move along the sine wave

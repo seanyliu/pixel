@@ -5,78 +5,43 @@ function Creature() {
   // jumping stats
   this.jumpHeight = 64;
   this.halfPI = Math.PI / 2;
-  // amount of time to spend in the air
-  this.jumpHangTime = 0.5;
-  // speed to pregress along the sine wave
-  this.jumpSinWaveSpeed = this.halfPI / this.jumpHangTime;
-  // current position along the sine wave
-  this.jumpSinWavePos = 0;
-  // rate to fall at
-  this.fallMultiplier = 1.5;
+  this.jumpHangTime = 0.5; // amount of time to spend in the air
+  this.jumpSinWaveSpeed = this.halfPI / this.jumpHangTime; // speed to pregress along the sine wave
+  this.jumpSinWavePos = 0; // current position along the sine wave
+  this.fallMultiplier = 1.5; // rate to fall at
   this.grounded = true;
-
-  // TODO: you shouldn't really be able to have isMovingLeft && isMovingRight
-  // this should instead be single a tri-state [left, 0, right] variable.
-  this.isMovingLeft = false;
-  this.isMovingRight = false;
-  this.isMovingUp = false;
-  this.isMovingDown = false;
-  this.level = null;
 
   /**
    * Initialize object.
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
+   *
+   * Creatures need access to the level to make sure that they
+   * can only move to valid places.
    */
   this.startupCreature = function(image, level, gameManager) {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
       400, // xPos
-      400 - 64 - 120, // yPos
+      600 - 64 - 120, // yPos
       0, // zOrder
       0, // frameStart
       0, // frameEnd
-      //0, // frameStart
-      //1, // frameEnd
       120, // frameWidth
       120, // frameHeight
       gameManager
     );
-    // TODO: put the level in the game manager instead of player
     this.level = level;
-  }
-
-  /**
-   * updates the animation. You need idleFacingLeft because
-   * when you stop moving, we don't know whether to face the character
-   * to the left or right, since we have no glimpse into past state.
-   * We could probably add a past state...but too lazy for now.
-   */
-  this.updateAnimation = function(idleFacingLeft) {
-    if (this.isMovingRight && this.isMovingLeft) {
-      // idle right
-      this.setAnimation(0, 0);
-    } else if (this.isMovingRight) {
-      this.setAnimation(0, 3);
-    } else if (this.isMovingLeft) {
-      this.setAnimation(4, 7);
-    } else {
-      // idle
-      if (idleFacingLeft) {
-        // idle left
-        this.setAnimation(7, 7);
-      } else {
-        // idle right
-        this.setAnimation(0, 0);
-      }
-    }
   }
 
   /**
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+    this.setAnimation(0, 0); // idle right
+    this.xPos += this.speed * dt;
+
     // modify the xScroll value to keep the player on the screen
     if (this.isMovingLeft) {
       this.xPos -= this.speed * dt;
@@ -125,17 +90,6 @@ function Creature() {
     }
     if (this.xPos < 0) {
       this.xPos = 0;
-    }
-
-    // Scroll the page
-    // TODO: also give a bit more buffer so you don't have to walk to the
-    // very edge before it starts to scroll.
-    if (this.xPos > 
-          (canvasContextHandle.canvas.width - this.frameWidth + xScroll)) {
-      gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
-    }
-    if (this.xPos < xScroll) {
-      gameManager.xScroll = this.xPos;
     }
 
     // if the player is jumping or falling, move along the sine wave
