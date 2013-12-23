@@ -36,7 +36,8 @@ function init(canvasId) {
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
       { name: "block", src: "" },
-      { name: "powerup", src: "assets/powerup.png" }
+      { name: "powerup", src: "assets/powerup.png" },
+      { name: "monster", src: "assets/monster.png" }
     ]
   );
 
@@ -88,6 +89,9 @@ function initAfterLoading() {
   var go = new Player();
   go.startupPlayer(GB_resourceManager.character, level);
   g_player = go;
+
+  var monster = new Creature();
+  monster.startupCreature(GB_resourceManager.monster, level);
 }
 
 function button_start() {
