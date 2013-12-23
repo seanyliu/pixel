@@ -28,6 +28,11 @@ function GameManager(canvasHandle) {
   // pointer to the setInterval loop
   this.threadHandle = null;
 
+  // game state (score, saving, etc)
+  this.gameState = {
+    "score": 0
+  }
+
   // watch for keyboard events
   document.onkeyup = function(event) {
     GB_gameManager.keyUp(event);
@@ -139,7 +144,7 @@ function GameManager(canvasHandle) {
    */
   this.updateScore = function() {
     var score = document.getElementById("score");
-    score.innerHTML = String(g_score);
+    score.innerHTML = String(this.gameState["score"]);
   }
 }
 

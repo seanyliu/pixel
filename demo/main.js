@@ -2,7 +2,6 @@
 var GB_gameManager = null;
 var GB_thread = null; // TODO: kill this variable
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
-var g_score = 0; // TODO: this should be attached to the GameManager...
 
 // Kick off the script
 window.onload = function() {
