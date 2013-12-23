@@ -31,12 +31,12 @@ function init(canvasId) {
   GB_resourceManager = new ResourceManager();
   GB_resourceManager.startupResourceManager(
     [
-      { name: "character", src: "character2-sprites.png" },
-      { name: "bgSky", src: "bg-sky.png" },
-      { name: "bgTrees", src: "bg-trees.png" },
-      { name: "bgGround", src: "bg-ground.png" },
+      { name: "character", src: "assets/character2-sprites.png" },
+      { name: "bgSky", src: "assets/bg-sky.png" },
+      { name: "bgTrees", src: "assets/bg-trees.png" },
+      { name: "bgGround", src: "assets/bg-ground.png" },
       { name: "block", src: "" },
-      { name: "powerup", src: "powerup.png" }
+      { name: "powerup", src: "assets/powerup.png" }
     ]
   );
 
