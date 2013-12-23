@@ -28,7 +28,7 @@ function Player() {
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
    */
-  this.startupPlayer = function(image, level) {
+  this.startupPlayer = function(image, level, gameManager) {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
@@ -41,7 +41,7 @@ function Player() {
       //1, // frameEnd
       120, // frameWidth
       120, // frameHeight
-      GB_gameManager
+      gameManager
     );
     // TODO: put the level in the game manager instead of player
     this.level = level;

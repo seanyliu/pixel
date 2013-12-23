@@ -44,12 +44,13 @@ function initGameObjects(canvasId, resourceManager) {
   var myCanvasHandle = document.getElementById(canvasId);
 
   // start the game manager
-  GB_gameManager = new GameManager(myCanvasHandle);
-  GB_thread = GB_gameManager.start();
+  var gameManager = new GameManager(myCanvasHandle);
+  GB_gameManager = gameManager;
+  GB_thread = gameManager.start();
 
   // load the level
   var level = new Level();
-  level.startupLevel(GB_gameManager);
+  level.startupLevel(gameManager);
 
   // load the sky
   var bg = new RepeatingVisualGameObject();
@@ -58,10 +59,10 @@ function initGameObjects(canvasId, resourceManager) {
     0, // xPos
     0, // yPos
     -2, // zOrder
-    GB_gameManager.mainContext.canvas.width, // width
-    GB_gameManager.mainContext.canvas.height, // height
+    gameManager.mainContext.canvas.width, // width
+    gameManager.mainContext.canvas.height, // height
     0.5, // scrollFactor
-    GB_gameManager
+    gameManager
   );
 
   // load the trees
@@ -71,10 +72,10 @@ function initGameObjects(canvasId, resourceManager) {
     0, // xPos
     0, // yPos
     0, // zOrder
-    GB_gameManager.mainContext.canvas.width, // width
-    GB_gameManager.mainContext.canvas.height, // height
+    gameManager.mainContext.canvas.width, // width
+    gameManager.mainContext.canvas.height, // height
     1, // scrollFactor
-    GB_gameManager
+    gameManager
   );
 
   // load the ground
@@ -84,20 +85,20 @@ function initGameObjects(canvasId, resourceManager) {
     0, // xPos
     0, // yPos
     -1, // zOrder
-    GB_gameManager.mainContext.canvas.width, // width
-    GB_gameManager.mainContext.canvas.height, // height
+    gameManager.mainContext.canvas.width, // width
+    gameManager.mainContext.canvas.height, // height
     1, // scrollFactor
-    GB_gameManager
+    gameManager
   );
 
   // create the player
   var player = new Player();
-  player.startupPlayer(resourceManager.character, level);
+  player.startupPlayer(resourceManager.character, level, gameManager);
   g_player = player;
 
   // create the monster
   var monster = new Creature();
-  monster.startupCreature(resourceManager.monster, level);
+  monster.startupCreature(resourceManager.monster, level, gameManager);
 }
 
 // debug function
