@@ -28,7 +28,8 @@ function initResourceManager(canvasId) {
       { name: "bgSky", src: "assets/bg-sky.png" },
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
-      { name: "block", src: "assets/BlockA0.png" },
+      //{ name: "block", src: "assets/BlockA0.png" },
+      { name: "block", src: "" },
       { name: "powerup", src: "assets/powerup.png" },
       { name: "monster", src: "assets/monster.png" }
     ],
