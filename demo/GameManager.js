@@ -45,21 +45,23 @@ function GameManager(canvasHandle) {
    * start rendering
    */
   this.start = function() {
-
     // start the main game loop
-    var threadHandle = setInterval(function() {
-      GB_gameManager.render();
-    }, 1000/this.FPS);
-    return threadHandle;
+    if (this.threadHandle === null) {
+      this.lastFrame = new Date().getTime();
+      this.threadHandle = setInterval(function() {
+        GB_gameManager.render();
+      }, 1000/this.FPS);
+    }
   }
 
   /**
    * pause rendering
    */
-  this.stop = function(threadHandle) {
-    if (threadHandle === null) {
+  this.stop = function() {
+    if (this.threadHandle === null) {
     } else {
-      clearInterval(threadHandle);
+      clearInterval(this.threadHandle);
+      this.threadHandle = null;
     }
   }
 

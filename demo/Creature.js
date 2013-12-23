@@ -1,6 +1,8 @@
 function Creature() {
   // speed creature moves at
   this.speed = 30;
+  this.horizontalDirection = 0; // -1, 0, 1 for left, still, right
+  this.verticalDirection = 0; // -1, 0, 1 for down, still, up
 
   // jumping stats
   this.jumpHeight = 64;
@@ -24,7 +26,7 @@ function Creature() {
     this.startupAnimatedVisualGameObject(
       image,
       400, // xPos
-      600 - 64 - 120, // yPos
+      400 - 64 - 120, // yPos
       0, // zOrder
       0, // frameStart
       0, // frameEnd
@@ -36,33 +38,68 @@ function Creature() {
   }
 
   /**
-   * Updates the object
+   * make sure the creature cannot move through
+   * blocks, etc.
    */
-  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    this.setAnimation(0, 0); // idle right
-    this.xPos += this.speed * dt;
+  this.constrainToLevel = function(canvasContextHandle) {
+    // xPosition to test for collision. Sometimes top left, sometimes top right
+    var xTest = 0;
 
-    // XOR operation
-    // test for collision if the player is moving left or right (and not
-    // both at the same time)
-    if ((this.isMovingRight || this.isMovingLeft) && !(this.isMovingLeft && this.isMovingRight)) {
-      // true if player is colliding
-      var collision = false;
+    // constrain vertical movement
+    // check for collisions to stop the jump
+    // left side
+    var currentBlock1 = this.level.currentBlock(this.xPos);
+    // right side
+    var currentBlock2 = this.level.currentBlock(this.xPos + this.frameWidth);
+    // ground height below left side
+    var groundHeight1 = this.level.groundHeight(currentBlock1);
+    // ground height below right side
+    var groundHeight2 = this.level.groundHeight(currentBlock2);
+    // highest point under player
+    var maxGroundHeight = groundHeight1 > groundHeight2 ? groundHeight1 : groundHeight2;
+    // players height (relative to bottom of screen)
+    var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
 
+    // we hit ground
+    if (maxGroundHeight >= playerHeight) {
+      this.yPos = canvasContextHandle.canvas.height - maxGroundHeight - this.frameHeight;
+      this.grounded = true;
+      this.jumpSinWavePos = 0;
+    } else if (this.grounded) {
+      // we walked off a cliff
+      this.grounded = false;
+      // start falling down the size wave from the top
+      this.jumpSinWavePos = this.halfPI;
+    }
+
+    // contrain horizontal movement
+    // do this AFTER fixing the vertical piece, because otherwise you may "fall" into the ground
+    // i.e. from the falling * dt (if dt is huge), and then be in a collision permanently, and freeze
+    // the game
+    if (this.horizontalDirection != 0) {
       // may have to push player back through several blocks
+      var collision = false;
       do {
+        
         // if running left, test left corner of sprite, otherwise right
-        var xPos = this.isMovingLeft ? this.xPos : this.xPos + this.frameWidth;
-        var currentBlockIdx = this.level.currentBlock(xPos);
+        xTest = this.xPos;
+        if (this.horizontalDirection > 0) xTest = this.xPos + this.frameWidth;
+
+        // get the ground height of the block at the given corner
+        var currentBlockIdx = this.level.currentBlock(xTest);
         var groundHeight = this.level.groundHeight(currentBlockIdx);
+
+        // get the creature's height
         var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
+
+        // check if the creature intersecting the block
         if (playerHeight < groundHeight) {
           collision = true;
-          if (this.isMovingRight) {
+          if (this.horizontalDirection > 0) {
             // we are moving right, so push player left
-            this.xPos = this.level.blockWidth * currentBlockIdx - this.frameWidth - 1;
+            this.xPos -= xTest - (this.level.blockWidth * currentBlockIdx) - 1;
           } else {
-            this.xPos = this.level.blockWidth * (currentBlockIdx + 1);
+            this.xPos += this.level.blockWidth * (currentBlockIdx + 1) - this.xPos + 1;
           }
         } else {
           collision = false;
@@ -77,6 +114,16 @@ function Creature() {
     if (this.xPos < 0) {
       this.xPos = 0;
     }
+  }
+
+  /**
+   * Updates the object
+   */
+  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+    this.setAnimation(0, 0); // idle right
+
+    this.horizontalDirection = 1;
+    this.xPos += this.speed * dt;
 
     // if the player is jumping or falling, move along the sine wave
     if (!this.grounded) {
@@ -94,52 +141,9 @@ function Creature() {
       }
     }
 
-    // TODO: make the collision code modular
-    // check for collisions to stop the jump
-    // left side
-    var currentBlock1 = this.level.currentBlock(this.xPos);
-    // right side
-    var currentBlock2 = this.level.currentBlock(this.xPos + this.frameWidth);
-    // ground height below left side
-    var groundHeight1 = this.level.groundHeight(currentBlock1);
-    // ground height below right side
-    var groundHeight2 = this.level.groundHeight(currentBlock2);
-    // highest point under player
-    var maxGroundHeight = groundHeight1 > groundHeight2 ? groundHeight1 : groundHeight2;
-    // players height (relative to bottom of screen)
-    // TODO: fix this.image.height in case you have a spriate that is larger than the char's bounding box
-    var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
+    // this must got AFTER all movement updates
+    this.constrainToLevel(canvasContextHandle);
 
-    // we hit ground
-    if (maxGroundHeight >= playerHeight) {
-      // TODO: don't use this.image.height
-      this.yPos = canvasContextHandle.canvas.height - maxGroundHeight - this.frameHeight;
-      this.grounded = true;
-      this.jumpSinWavePos = 0;
-    } else if (this.grounded) {
-      // we walked off a cliff
-      this.grounded = false;
-      // start falling down the size wave from the top
-      this.jumpSinWavePos = this.halfPI;
-    }
-
-
-
-/*
-    // ensure the player doesn't move out of bounds
-    if (this.xPos > canvasContextHandle.canvas.width - this.frameWidth) {
-      this.xPos = canvasContextHandle.canvas.width - this.frameWidth;
-    }
-    if (this.xPos < 0) {
-      this.xPos = 0;
-    }
-    if (this.yPos > canvasContextHandle.canvas.height - this.frameHeight) {
-      this.yPos = canvasContextHandle.canvas.height - this.frameHeight;
-    }
-    if (this.yPos < 0) {
-      this.yPos = 0;
-    }
-*/
   }
 
   /**

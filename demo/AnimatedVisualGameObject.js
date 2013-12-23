@@ -11,6 +11,16 @@ function AnimatedVisualGameObject() {
   // number of rows/cols in sprite
   this.frameRowCount = 0;
   this.frameColCount = 0;
+  // collision rectangle (e.g. if the actual char is only the middle 10% of the frame!)
+  // the collision rectangle is the following.  Note that the width is the middle
+  // but the height starts from the bottom!
+  // --------------------
+  // |    frameWidth    |
+  // |  _____________   |
+  // |  | collision  |  |
+  // |__|____________|__|
+  this.collisionWidth = 0;
+  this.collsionHeight = 0;
 
   /**
    * Initialize object.

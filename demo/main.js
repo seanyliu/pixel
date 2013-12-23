@@ -1,6 +1,5 @@
 // Define globals
 var GB_gameManager = null;
-var GB_thread = null; // TODO: kill this variable
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 
 // Kick off the script
@@ -29,7 +28,7 @@ function initResourceManager(canvasId) {
       { name: "bgSky", src: "assets/bg-sky.png" },
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
-      { name: "block", src: "" },
+      { name: "block", src: "assets/BlockA0.png" },
       { name: "powerup", src: "assets/powerup.png" },
       { name: "monster", src: "assets/monster.png" }
     ],
@@ -46,7 +45,7 @@ function initGameObjects(canvasId, resourceManager) {
   // start the game manager
   var gameManager = new GameManager(myCanvasHandle);
   GB_gameManager = gameManager;
-  GB_thread = gameManager.start();
+  gameManager.start();
 
   // load the level
   var level = new Level();
@@ -116,10 +115,10 @@ $(window).focus(function() {
 });
 
 function button_start() {
-  GB_thread = GB_gameManager.start();
+  GB_gameManager.start();
 }
 
 function button_stop() {
-  GB_gameManager.stop(GB_thread);
+  GB_gameManager.stop();
 }
 
