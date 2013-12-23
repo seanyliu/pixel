@@ -6,6 +6,9 @@ var GB_resourceManager = null;
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
 
+var NUM_ANTS = 10;
+var GB_repellants = new Array();
+
 // Kick off the script
 window.onload = function() {
   var canvasId = "pixel_canvas";
@@ -22,24 +25,48 @@ function init(canvasId) {
   GB_resourceManager = new ResourceManager();
   GB_resourceManager.startupResourceManager(
     [
-      { name: "ant", src: "ant.png" }
+      { name: "ant", src: "ant.png" },
+      { name: "repellant", src: "repellant.png" }
     ]
   );
 
+  // listen for mouse clicks
+  myCanvasHandle.addEventListener('click', getCanvasClick);
+
+  // initilize the game manager thread
   GB_gameManager = new GameManager(myCanvasHandle);
   GB_thread = GB_gameManager.start();
 
 }
 
-var NUM_ANTS = 10;
-var GB_ants = new Array();
+function getCanvasClick(event) {
+  var myCanvasHandle = document.getElementById("pixel_canvas"); // TODO: don't have the call hardcoded here
+  coords = myCanvasHandle.relMouseCoords(event);
+  canvasX = coords.x;
+  canvasY = coords.y;
+
+  var repellant = new Repellant();
+  repellant.startupRepellant(
+    GB_resourceManager.repellant,
+    canvasX,
+    canvasY,
+    0, // zOrder
+    0, // frameStart
+    0, // frameEnd
+    3, // frameWidth
+    3, // frameHeight
+    GB_gameManager
+  );
+  GB_gameManager.addRepellant(repellant);
+}
+
 function initAfterLoading() {
   // initialize game state
 
   for (var i=0; i<NUM_ANTS; i++) {
     var ant = new Ant();
     ant.startupAnt(GB_resourceManager.ant, Math.random() * GB_gameManager.mainCanvas.width, Math.random() * GB_gameManager.mainCanvas.height);
-    GB_ants.push(ant);
+    GB_gameManager.addAnt(ant);
   }
 }
 
@@ -55,3 +82,26 @@ function button_stop() {
 function debug(text) {
   document.getElementById("debug").innerHTML = text;
 }
+
+/**
+ * get the mouse click location
+ * http://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
+ */
+function relMouseCoords(event) {
+  var totalOffsetX = 0;
+  var totalOffsetY = 0;
+  var canvasX = 0;
+  var canvasY = 0;
+  var currentElement = this;
+
+  do {
+    totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+    totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+  } while(currentElement = currentElement.offsetParent);
+
+  canvasX = event.pageX - totalOffsetX;
+  canvasY = event.pageY - totalOffsetY;
+
+  return {x:canvasX, y:canvasY}
+}
+HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;

@@ -1,16 +1,10 @@
 function Ant() {
   // speed ant moves at
-  this.speed = 75;
+  this.speed = 70;
 
-  // TODO: you shouldn't really be able to have isMovingLeft && isMovingRight
-  // this should instead be single a tri-state [left, 0, right] variable.
-  this.isMovingLeft = false;
-  this.isMovingRight = false;
-  this.isMovingUp = false;
-  this.isMovingDown = false;
-  this.level = null;
-
-  this.TOO_CLOSE_THRESHOLD = 100;
+  this.ANT_TOO_CLOSE_THRESHOLD = 75;
+  this.REPELLANT_TOO_CLOSE_THRESHOLD = 125;
+  this.REPELLANT_WEIGHT = 2; // how much to weighted average the repellant effect
 
   /**
    * Initialize object.
@@ -26,91 +20,10 @@ function Ant() {
       0, // zOrder
       0, // frameStart
       0, // frameEnd
-      //0, // frameStart
-      //1, // frameEnd
       4, // frameWidth
       4, // frameHeight
       GB_gameManager
     );
-  }
-
-  /**
-   * Called when a key is pressed. GameManager cycles
-   * through all the objects and invokes keyUp and keyDown.
-   */
-  this.keyDown = function(event) {
-    /*
-    if (event.keyCode == 37 && !this.isMovingLeft) {
-      // left
-      this.isMovingLeft = true;
-      this.updateAnimation();
-    }
-    if (event.keyCode == 39 && !this.isMovingRight) {
-      // right
-      this.isMovingRight = true;
-      this.updateAnimation();
-    }
-    // TODO: change grounded to be opposite so it's consistently !this.isMovingUp
-    if (event.keyCode == 38 && this.grounded) {
-      this.grounded = false;
-      this.jumpSinWavePos = 0;
-    }
-    */
-  }
-
-  /**
-   * Called when a key is released. GameManager cycles
-   * through all the objects and invokes keyUp and keyDown.
-   */
-  this.keyUp = function(event) {
-    /*
-    if (event.keyCode == 37 && this.isMovingLeft) {
-      // left
-      this.isMovingLeft = false;
-      this.updateAnimation(true);
-    }
-    if (event.keyCode == 39 && this.isMovingRight) {
-      // right
-      this.isMovingRight = false;
-      this.updateAnimation();
-    }
-    if (event.keyCode == 38 && this.isMovingUp) {
-      // up
-      this.isMovingUp = false;
-    }
-    if (event.keyCode == 40 && this.isMovingDown) {
-      // down
-      this.isMovingDown = false;
-    }
-    */
-  }
-
-  /**
-   * updates the animation. You need idleFacingLeft because
-   * when you stop moving, we don't know whether to face the character
-   * to the left or right, since we have no glimpse into past state.
-   * We could probably add a past state...but too lazy for now.
-   */
-  this.updateAnimation = function(idleFacingLeft) {
-    /*
-    if (this.isMovingRight && this.isMovingLeft) {
-      // idle right
-      this.setAnimation(0, 0);
-    } else if (this.isMovingRight) {
-      this.setAnimation(0, 3);
-    } else if (this.isMovingLeft) {
-      this.setAnimation(4, 7);
-    } else {
-      // idle
-      if (idleFacingLeft) {
-        // idle left
-        this.setAnimation(7, 7);
-      } else {
-        // idle right
-        this.setAnimation(0, 0);
-      }
-    }
-    */
   }
 
   /**
@@ -129,14 +42,35 @@ function Ant() {
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
 
+    // detect if you're too close to any repellants
+    // and compute their angles
+    var isRepellantTooClose = false;
+    var anglesToRepellants = new Array();
+    for (var i=0; i<this.gameManager.repellants.length; i++) {
+      var repellant = this.gameManager.repellants[i];
+      var distance = this.distanceTo(repellant);
+      if (distance < this.REPELLANT_TOO_CLOSE_THRESHOLD) {
+        isRepellantTooClose = true;
+        var yDist = repellant.yPos - this.yPos;
+        var ratio = yDist/distance;
+        var angleToRepellant = Math.asin(ratio);
+        if (repellant.xPos - this.xPos < 0) {
+          angleToRepellant = Math.PI - angleToRepellant;
+        }
+        anglesToRepellants.push(angleToRepellant);
+      }
+    }
+
+    // detect if you're too close to any other ants
+    // and compute their angles
     var isOtherAntTooClose = false;
     var anglesToOtherAnts = new Array();
-    for (var i=0; i<GB_ants.length; i++) {
-      var otherAnt = GB_ants[i];
+    for (var i=0; i<this.gameManager.ants.length; i++) {
+      var otherAnt = this.gameManager.ants[i];
       var distance = this.distanceTo(otherAnt);
       if (distance != 0) {
         // distance = 0 is likely to be yourself
-        if (distance < this.TOO_CLOSE_THRESHOLD) {
+        if (distance < this.ANT_TOO_CLOSE_THRESHOLD) {
           isOtherAntTooClose = true;
           var yDist = otherAnt.yPos - this.yPos;
           var ratio = yDist/distance;
@@ -149,20 +83,31 @@ function Ant() {
       }
     }
 
-    if (isOtherAntTooClose) {
+    if (isRepellantTooClose || isOtherAntTooClose) {
       var xChg = 0;
       var yChg = 0;
+
+      // move away from repellants
+      for (var i=0; i<anglesToRepellants.length; i++) {
+        var angleToRepellant = anglesToRepellants[i];
+        var oppositeAngle = angleToRepellant + Math.PI;
+        xChg += Math.cos(oppositeAngle) * this.speed * dt * this.REPELLANT_WEIGHT;
+        yChg += Math.sin(oppositeAngle) * this.speed * dt * this.REPELLANT_WEIGHT;
+      }
+
+      // move away from other ants
       for (var i=0; i<anglesToOtherAnts.length; i++) {
         var angleToOtherAnt = anglesToOtherAnts[i];
         var oppositeAngle = angleToOtherAnt + Math.PI;
         xChg += Math.cos(oppositeAngle) * this.speed * dt;
         yChg += Math.sin(oppositeAngle) * this.speed * dt;
       }
-      xChg = xChg / anglesToOtherAnts.length;
-      yChg = yChg / anglesToOtherAnts.length;
-      if (isNaN(xChg)) {
-        debug("NAN");
-      }
+
+      // average out the movements
+      xChg = xChg / (anglesToOtherAnts.length + anglesToRepellants.length * this.REPELLANT_WEIGHT);
+      yChg = yChg / (anglesToOtherAnts.length + anglesToRepellants.length * this.REPELLANT_WEIGHT);
+
+      // perform the movement
       this.xPos += xChg;
       this.yPos += yChg;
     } else {

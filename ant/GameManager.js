@@ -28,6 +28,11 @@ function GameManager(canvasHandle) {
   // array of game objects
   this.gameObjects = new Array();
 
+  // array of repellants
+  // TODO: this should really just use gameObjects
+  this.repellants = new Array();
+  this.ants = new Array();
+
   // time since last frame rendered
   this.lastFrame = new Date().getTime();
   this.xScroll = 0; // scrolling of the x axis
@@ -180,4 +185,20 @@ GameManager.prototype.keyDown = function(event) {
 GameManager.prototype.updateScore = function() {
   var score = document.getElementById("score");
   score.innerHTML = String(g_score);
+}
+
+GameManager.prototype.addRepellant = function(repellant) {
+  this.repellants.push(repellant);
+}
+
+GameManager.prototype.removeRepellant = function(repellant) {
+  this.repellants.removeObject(repellant);
+}
+
+GameManager.prototype.addAnt = function(ant) {
+  this.ants.push(ant);
+}
+
+GameManager.prototype.removeAnt = function(ant) {
+  this.ants.removeObject(ant);
 }
