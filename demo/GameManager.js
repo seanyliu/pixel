@@ -35,108 +35,111 @@ function GameManager(canvasHandle) {
   document.onkeydown = function(event) {
     GB_gameManager.keyDown(event);
   }
-}
 
-/**
- * start rendering
- */
-GameManager.prototype.start = function() {
+  /**
+   * start rendering
+   */
+  this.start = function() {
 
-  // start the main game loop
-  var threadHandle = setInterval(function() {
-    GB_gameManager.render();
-  }, 1000/this.FPS);
-  return threadHandle;
-}
-
-/**
- * pause rendering
- */
-GameManager.prototype.stop = function(threadHandle) {
-  if (threadHandle === null) {
-  } else {
-    clearInterval(threadHandle);
+    // start the main game loop
+    var threadHandle = setInterval(function() {
+      GB_gameManager.render();
+    }, 1000/this.FPS);
+    return threadHandle;
   }
-}
 
-/**
- * actually render
- */
-GameManager.prototype.render = function() {
-  // calculate the time since the last frame
-  var thisFrame = new Date().getTime();
-  var dt = (thisFrame - this.lastFrame)/1000;
-  this.lastFrame = thisFrame;
-
-  // Clear back buffer
-  this.backBufferContext.clearRect(0, 0,
-    this.backBufferCanvas.width, this.backBufferCanvas.height
-  );
-
-  // update loop
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].update) {
-      this.gameObjects[obj].update(dt, this.backBufferContext, this.xScroll, this.yScroll);
+  /**
+   * pause rendering
+   */
+  this.stop = function(threadHandle) {
+    if (threadHandle === null) {
+    } else {
+      clearInterval(threadHandle);
     }
   }
 
-  // draw loop
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].draw) {
-      this.gameObjects[obj].draw(dt, this.backBufferContext, this.xScroll, this.yScroll);
+  /**
+   * actually render
+   */
+  this.render = function() {
+    // calculate the time since the last frame
+    var thisFrame = new Date().getTime();
+    var dt = (thisFrame - this.lastFrame)/1000;
+    this.lastFrame = thisFrame;
+
+    // Clear back buffer
+    this.backBufferContext.clearRect(0, 0,
+      this.backBufferCanvas.width, this.backBufferCanvas.height
+    );
+
+    // update loop
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].update) {
+        this.gameObjects[obj].update(dt, this.backBufferContext, this.xScroll, this.yScroll);
+      }
+    }
+
+    // draw loop
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].draw) {
+        this.gameObjects[obj].draw(dt, this.backBufferContext, this.xScroll, this.yScroll);
+      }
+    }
+
+    // TODO: add an intersect loop her
+    // Clear the main screen
+    this.mainContext.clearRect(0, 0,
+      this.backBufferCanvas.width, this.backBufferCanvas.height
+    );
+
+    // draw buffer to main screen
+    this.mainContext.drawImage(this.backBufferCanvas, 0, 0);
+  }
+
+  /**
+   * Register a new game object
+   */
+  this.addGameObject = function(gameObject) {
+    this.gameObjects.push(gameObject);
+    this.gameObjects.sort(function(a,b){return a.zOrder - b.zOrder;})
+  }
+
+  /**
+   * Remove a game object
+   */
+  this.removeGameObject = function(gameObject) {
+    this.gameObjects.removeObject(gameObject);
+  }
+
+  /**
+   * Process keyboard controls: keyUp
+   */
+  this.keyUp = function(event) {
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].keyUp) {
+        this.gameObjects[obj].keyUp(event);
+      }
     }
   }
 
-  // TODO: add an intersect loop her
-  // Clear the main screen
-  this.mainContext.clearRect(0, 0,
-    this.backBufferCanvas.width, this.backBufferCanvas.height
-  );
-
-  // draw buffer to main screen
-  this.mainContext.drawImage(this.backBufferCanvas, 0, 0);
-
-}
-
-/**
- * Register a new game object
- */
-GameManager.prototype.addGameObject = function(gameObject) {
-  this.gameObjects.push(gameObject);
-  this.gameObjects.sort(function(a,b){return a.zOrder - b.zOrder;})
-}
-
-/**
- * Remove a game object
- */
-GameManager.prototype.removeGameObject = function(gameObject) {
-  this.gameObjects.removeObject(gameObject);
-}
-
-/**
- * Process keyboard controls: keyUp
- */
-GameManager.prototype.keyUp = function(event) {
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].keyUp) {
-      this.gameObjects[obj].keyUp(event);
+  /**
+   * Process keyboard controls: keyDown
+   */
+  this.keyDown = function(event) {
+    //debug("keyDown"+event.keyCode);
+    for (var obj in this.gameObjects) {
+      if (this.gameObjects[obj].keyDown) {
+        this.gameObjects[obj].keyDown(event);
+      }
     }
+  }
+
+  /**
+   * Updates the score
+   */
+  this.updateScore = function() {
+    var score = document.getElementById("score");
+    score.innerHTML = String(g_score);
   }
 }
 
-/**
- * Process keyboard controls: keyDown
- */
-GameManager.prototype.keyDown = function(event) {
-  //debug("keyDown"+event.keyCode);
-  for (var obj in this.gameObjects) {
-    if (this.gameObjects[obj].keyDown) {
-      this.gameObjects[obj].keyDown(event);
-    }
-  }
-}
-
-GameManager.prototype.updateScore = function() {
-  var score = document.getElementById("score");
-  score.innerHTML = String(g_score);
-}
