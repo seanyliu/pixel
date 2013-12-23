@@ -1,33 +1,28 @@
 // Define globals
 var GB_gameManager = null;
 var GB_thread = null; // TODO: kill this variable
-
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
-
-// pause the game if the user isn't focused on the current window
-$(window).blur(function() {
-  button_stop();
-});
-
-$(window).focus(function() {
-  button_start();
-});
 
 // Kick off the script
 window.onload = function() {
   var canvasId = "pixel_canvas";
+
+  // make the canvas take the entire width of the page
   var canvasElt = document.getElementById(canvasId);
-  //canvasElt.height = document.body.offsetHeight;
+  canvasElt.height = 600;
   canvasElt.width = document.body.offsetWidth;
-  init(canvasId);
+
+  // kick off the loading
+  initResourceManager(canvasId);
 }
 
-function init(canvasId) {
+/**
+ * Creates a new resource manager which calls the callback()
+ * after all the assets have loaded.
+ */
+function initResourceManager(canvasId) {
   var myCanvasHandle = document.getElementById(canvasId);
-
-  // TODO: make the resource manager part of the game manager?
-  // create a new Resource Manager
   var resourceManager = new ResourceManager();
   resourceManager.startupResourceManager(
     [
@@ -40,24 +35,27 @@ function init(canvasId) {
       { name: "monster", src: "assets/monster.png" }
     ],
     myCanvasHandle,
-    function() {
-      initAfterResourcesLoaded(canvasId);
+    function() { // callback function
+      initGameObjects(canvasId, resourceManager);
     }
   );
 }
 
-function initAfterResourcesLoaded(canvasId) {
+function initGameObjects(canvasId, resourceManager) {
   var myCanvasHandle = document.getElementById(canvasId);
+
   // start the game manager
   GB_gameManager = new GameManager(myCanvasHandle);
   GB_thread = GB_gameManager.start();
 
+  // load the level
   var level = new Level();
   level.startupLevel(GB_gameManager);
 
+  // load the sky
   var bg = new RepeatingVisualGameObject();
   bg.startupRepeatingVisualGameObject(
-    GB_resourceManager.bgSky, // image
+    resourceManager.bgSky, // image
     0, // xPos
     0, // yPos
     -2, // zOrder
@@ -66,9 +64,11 @@ function initAfterResourcesLoaded(canvasId) {
     0.5, // scrollFactor
     GB_gameManager
   );
+
+  // load the trees
   var bg3 = new RepeatingVisualGameObject();
   bg3.startupRepeatingVisualGameObject(
-    GB_resourceManager.bgTrees, // image
+    resourceManager.bgTrees, // image
     0, // xPos
     0, // yPos
     0, // zOrder
@@ -77,9 +77,11 @@ function initAfterResourcesLoaded(canvasId) {
     1, // scrollFactor
     GB_gameManager
   );
+
+  // load the ground
   var bg4 = new RepeatingVisualGameObject();
   bg4.startupRepeatingVisualGameObject(
-    GB_resourceManager.bgGround, // image
+    resourceManager.bgGround, // image
     0, // xPos
     0, // yPos
     -1, // zOrder
@@ -89,14 +91,29 @@ function initAfterResourcesLoaded(canvasId) {
     GB_gameManager
   );
 
-  // initialize game state
-  var go = new Player();
-  go.startupPlayer(GB_resourceManager.character, level);
-  g_player = go;
+  // create the player
+  var player = new Player();
+  player.startupPlayer(resourceManager.character, level);
+  g_player = player;
 
+  // create the monster
   var monster = new Creature();
-  monster.startupCreature(GB_resourceManager.monster, level);
+  monster.startupCreature(resourceManager.monster, level);
 }
+
+// debug function
+function debug(text) {
+  document.getElementById("debug").innerHTML = text;
+}
+
+// pause the game if the user isn't focused on the current window
+$(window).blur(function() {
+  button_stop();
+});
+
+$(window).focus(function() {
+  button_start();
+});
 
 function button_start() {
   GB_thread = GB_gameManager.start();
@@ -106,7 +123,3 @@ function button_stop() {
   GB_gameManager.stop(GB_thread);
 }
 
-// debug function
-function debug(text) {
-  document.getElementById("debug").innerHTML = text;
-}

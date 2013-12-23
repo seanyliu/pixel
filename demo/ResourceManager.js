@@ -61,12 +61,12 @@ function ResourceManager() {
    */
   this.resourcesFinishedLoading = function() {
     var numLoaded = 0;
-    for (i=0; i<GB_resourceManager.imageProperties.length; i++) {
-      if (GB_resourceManager[GB_resourceManager.imageProperties[i]].complete) {
+    for (i=0; i<this.imageProperties.length; i++) {
+      if (this[this.imageProperties[i]].complete) {
         numLoaded++;
       }
     }
-    if (numLoaded == GB_resourceManager.imageProperties.length) {
+    if (numLoaded == this.imageProperties.length) {
       return true;
     } else {
       return false;
@@ -91,7 +91,10 @@ function ResourceManager() {
         this.loadingScreenColor = 0;
         this.loadingScreenColorDirection = 1;
       }
-      this.mainContext.fillStyle = "rgb(" + parseInt(this.loadingScreenColor) + "," + parseInt(this.loadingScreenColor) + "," + parseInt(this.loadingScreenColor) + ")";
+      this.mainContext.fillStyle = "rgb(" +
+          parseInt(this.loadingScreenColor) + "," +
+          parseInt(this.loadingScreenColor) + "," +
+          parseInt(this.loadingScreenColor) + ")";
       this.mainContext.fillRect(0, 0, this.mainCanvas.width, this.mainCanvas.height);
  
     // check if we're done loading 

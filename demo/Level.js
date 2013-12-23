@@ -30,6 +30,7 @@ function Level() {
         // TODO: store the block objects so you can shut them down
         // if needed!
         var vgo = new VisualGameObject();
+        // TODO: kill GB_resourceManager
         vgo.startupVisualGameObject(GB_resourceManager.block, x * this.blockWidth, gameManager.mainContext.canvas.height - (y + 1) * this.blockHeight, 4, gameManager);
       }
     }
