@@ -65,7 +65,7 @@ function initAfterLoading() {
 
   for (var i=0; i<NUM_ANTS; i++) {
     var ant = new Ant();
-    ant.startupAnt(GB_resourceManager.ant, Math.random() * GB_gameManager.mainCanvas.width, Math.random() * GB_gameManager.mainCanvas.height);
+    ant.startupAnt(i, GB_resourceManager.ant, Math.random() * GB_gameManager.mainCanvas.width, Math.random() * GB_gameManager.mainCanvas.height);
     GB_gameManager.addAnt(ant);
   }
 }

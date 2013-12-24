@@ -3,6 +3,8 @@
  */
 function GameManager(canvasHandle) {
 
+  this.gameMode = 0; // regular/default mode
+
   /* Initialize Object */
   this.FPS = 20;
 
@@ -48,6 +50,14 @@ function GameManager(canvasHandle) {
   document.onkeydown = function(event) {
     GB_gameManager.keyDown(event);
   }
+}
+
+/**
+ * Change the game mode.  E.g. 0=regular,
+ * 1 = snake, etc.
+ */
+GameManager.prototype.setMode = function(mode) {
+  this.gameMode = mode;
 }
 
 /**

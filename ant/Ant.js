@@ -2,6 +2,12 @@ function Ant() {
   // speed ant moves at
   this.speed = 70;
 
+  // used for the snake movement for smooth movement
+  this.lastAngleMoved = 0;
+
+  // ID - must be an integer!
+  this.ID = 0; // the smaller the number, the more "senior" the ant. Smallest # = leader
+
   this.ANT_TOO_CLOSE_THRESHOLD = 75;
   this.REPELLANT_TOO_CLOSE_THRESHOLD = 125;
   this.REPELLANT_WEIGHT = 2; // how much to weighted average the repellant effect
@@ -11,7 +17,7 @@ function Ant() {
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
    */
-  this.startupAnt = function(image, xPos, yPos) {
+  this.startupAnt = function(/** integer >= 0 */ID, image, xPos, yPos) {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
@@ -24,6 +30,7 @@ function Ant() {
       4, // frameHeight
       GB_gameManager
     );
+    this.ID = ID;
   }
 
   /**
@@ -38,10 +45,9 @@ function Ant() {
   }
 
   /**
-   * Updates the object
+   * Regular mode movement
    */
-  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-
+  this.regularMove = function(dt, canvasContextHandle, xScroll, yScroll) {
     // detect if you're too close to any repellants
     // and compute their angles
     var isRepellantTooClose = false;
@@ -115,6 +121,63 @@ function Ant() {
       var randAngle = Math.random() * Math.PI * 2;
       this.xPos += Math.cos(randAngle) * this.speed * dt;
       this.yPos += Math.sin(randAngle) * this.speed * dt;
+    }
+  }
+
+  /**
+   * create a snake formation
+   */
+  this.snakeMove = function(dt, canvasContextHandle, xScroll, yScroll) {
+
+    var parentAnt = null;
+
+    // find the ant who's ID is < yours, but is the largest.
+    // e.g. if the ID's are: 0, 1, 3, 7, 8, and you are ant 7, then
+    // 3 is your parent!
+    for (var i=0; i<this.gameManager.ants.length; i++) {
+      var otherAnt = this.gameManager.ants[i];
+      if (otherAnt.ID < this.ID) {
+        if (parentAnt == null || (otherAnt.ID > parentAnt.ID)) {
+          parentAnt = otherAnt;
+        }
+      }
+    }
+
+    if (parentAnt == null) {
+      // you are the parent!
+      // move randomly
+      // TODO: fix
+      var addOrSubtract = Math.random() > 0.5 ? 1 : -1;
+      var randAngleChg = Math.random() * Math.PI * 0.2 * addOrSubtract;
+      this.lastAngleMoved = this.lastAngleMoved + randAngleChg;
+      this.xPos += Math.cos(this.lastAngleMoved) * this.speed * dt;
+      this.yPos += Math.sin(this.lastAngleMoved) * this.speed * dt;
+    } else {
+      // move toward your parent
+      var distance = this.distanceTo(parentAnt);
+      if (distance >= this.speed * 0.5) {
+        var yDist = parentAnt.yPos - this.yPos;
+        var ratio = yDist/distance;
+        var angleToOtherAnt = Math.asin(ratio);
+        if (parentAnt.xPos - this.xPos < 0) {
+          angleToOtherAnt = Math.PI - angleToOtherAnt;
+        }
+        this.xPos += Math.cos(angleToOtherAnt) * this.speed * dt;
+        this.yPos += Math.sin(angleToOtherAnt) * this.speed * dt;
+      }
+    }
+
+  }
+
+  /**
+   * Updates the object
+   */
+  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+
+    if (this.gameManager.gameMode == 0) {
+      this.regularMove(dt, canvasContextHandle, xScroll, yScroll);
+    } else if (this.gameManager.gameMode == 1) {
+      this.snakeMove(dt, canvasContextHandle, xScroll, yScroll);
     }
 
     // keep the ant bound to the level
