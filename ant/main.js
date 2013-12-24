@@ -6,7 +6,7 @@ var GB_resourceManager = null;
 var g_player = null; // TODO: used for the Powerup...() class. Get rid of this global call.
 var g_score = 0; // TODO: this should be attached to the GameManager...
 
-var NUM_ANTS = 10;
+var NUM_ANTS = 18;
 var GB_repellants = new Array();
 
 // Kick off the script
@@ -63,9 +63,17 @@ function getCanvasClick(event) {
 function initAfterLoading() {
   // initialize game state
 
-  for (var i=0; i<NUM_ANTS; i++) {
+  // snake ants
+  for (var i=0; i<NUM_ANTS/2; i++) {
     var ant = new Ant();
     ant.startupAnt(i, GB_resourceManager.ant, Math.random() * GB_gameManager.mainCanvas.width, Math.random() * GB_gameManager.mainCanvas.height);
+    GB_gameManager.addAnt(ant);
+  }
+
+  // regular ants
+  for (var i=0; i<NUM_ANTS/2; i++) {
+    var ant = new Ant();
+    ant.startupAnt(null, GB_resourceManager.ant, Math.random() * GB_gameManager.mainCanvas.width, Math.random() * GB_gameManager.mainCanvas.height);
     GB_gameManager.addAnt(ant);
   }
 }

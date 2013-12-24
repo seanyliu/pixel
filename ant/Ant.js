@@ -6,7 +6,8 @@ function Ant() {
   this.lastAngleMoved = 0;
 
   // ID - must be an integer!
-  this.ID = 0; // the smaller the number, the more "senior" the ant. Smallest # = leader
+  this.ID = null; // the smaller the number, the more "senior" the ant. Smallest # = leader
+  // null means the ant cannot do a snake formation
 
   this.ANT_TOO_CLOSE_THRESHOLD = 75;
   this.REPELLANT_TOO_CLOSE_THRESHOLD = 125;
@@ -136,6 +137,10 @@ function Ant() {
     // 3 is your parent!
     for (var i=0; i<this.gameManager.ants.length; i++) {
       var otherAnt = this.gameManager.ants[i];
+
+      // skip over null ants (i.e. cannot form a snake)
+      if (otherAnt.ID == null) continue;
+
       if (otherAnt.ID < this.ID) {
         if (parentAnt == null || (otherAnt.ID > parentAnt.ID)) {
           parentAnt = otherAnt;
@@ -155,7 +160,7 @@ function Ant() {
     } else {
       // move toward your parent
       var distance = this.distanceTo(parentAnt);
-      if (distance >= this.speed * 0.5) {
+      if (distance >= this.speed * 0.3) {
         var yDist = parentAnt.yPos - this.yPos;
         var ratio = yDist/distance;
         var angleToOtherAnt = Math.asin(ratio);
@@ -174,7 +179,7 @@ function Ant() {
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
 
-    if (this.gameManager.gameMode == 0) {
+    if (this.gameManager.gameMode == 0 || this.ID == null) {
       this.regularMove(dt, canvasContextHandle, xScroll, yScroll);
     } else if (this.gameManager.gameMode == 1) {
       this.snakeMove(dt, canvasContextHandle, xScroll, yScroll);

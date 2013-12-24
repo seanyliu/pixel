@@ -3,7 +3,7 @@
  */
 function GameManager(canvasHandle) {
 
-  this.gameMode = 0; // regular/default mode
+  this.gameMode = 1; // 0 = regular, 1=snake
 
   /* Initialize Object */
   this.FPS = 20;
