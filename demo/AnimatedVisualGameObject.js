@@ -36,6 +36,8 @@ function AnimatedVisualGameObject() {
       frameEnd, // last frame
       frameWidth,
       frameHeight,
+      collisionWidth,
+      collisionHeight,
       gameManager) {
     // error checking
     if (frameWidth <= 0) throw "frameWidth cannot be <= 0";
@@ -51,6 +53,8 @@ function AnimatedVisualGameObject() {
     this.frameHeight = frameHeight;
     this.frameColCount = image.width / frameWidth;
     this.frameRowCount = image.height / frameHeight;
+    this.collisionWidth = collisionWidth;
+    this.collisionHeight = collisionHeight;
 
     // kick off the animation
     this.setAnimation(frameStart, frameEnd);
@@ -103,7 +107,9 @@ function AnimatedVisualGameObject() {
     // TODO: instead of constantly creating a new rectangle, we should
     // have just one.
     var rect = new Rectangle();
-    rect.startupRectangle(this.xPos, this.yPos, this.frameWidth, this.frameHeight, this.gameManager);
+    var xCollision = this.xPos + (this.frameWidth - this.collisionWidth)/2;
+    var yCollision = this.yPos + (this.frameHeight - this.collisionHeight);
+    rect.startupRectangle(xCollision, yCollision, this.collisionWidth, this.collisionHeight, this.gameManager);
     return rect;
   }
 

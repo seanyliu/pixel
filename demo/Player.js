@@ -1,3 +1,5 @@
+// TODO: make this inherit from creature
+// TODO: creature falls off at end
 function Player() {
   // speed player moves at
   this.speed = 75;
@@ -41,6 +43,8 @@ function Player() {
       //1, // frameEnd
       120, // frameWidth
       120, // frameHeight
+      45, // collisionWidth
+      100, // collisionHeight
       gameManager
     );
     // TODO: put the level in the game manager instead of player

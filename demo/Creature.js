@@ -25,13 +25,15 @@ function Creature() {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
-      400, // xPos
+      Math.random() * gameManager.mainCanvas.width, // xPos
       400 - 64 - 120, // yPos
       0, // zOrder
       0, // frameStart
       0, // frameEnd
       120, // frameWidth
       120, // frameHeight
+      45, // collisionWidth
+      100, // collisionHeight
       gameManager
     );
     this.level = level;
@@ -116,14 +118,23 @@ function Creature() {
     }
   }
 
+  this.randDirection = Math.random(); // TODO: remove this
+
   /**
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    this.setAnimation(0, 0); // idle right
 
-    this.horizontalDirection = 1;
-    this.xPos += this.speed * dt;
+    if (this.randDirection > 0.5) {
+      this.setAnimation(0, 0); // idle right
+      this.horizontalDirection = 1;
+      this.xPos += this.speed * dt;
+    } else {
+      this.setAnimation(7, 7); // idle right
+      this.horizontalDirection = -1;
+      this.xPos -= this.speed * dt;
+    }
+
 
     // if the player is jumping or falling, move along the sine wave
     if (!this.grounded) {

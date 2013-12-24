@@ -28,8 +28,8 @@ function initResourceManager(canvasId) {
       { name: "bgSky", src: "assets/bg-sky.png" },
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
-      //{ name: "block", src: "assets/BlockA0.png" },
-      { name: "block", src: "" },
+      { name: "block", src: "assets/BlockA0.png" },
+      //{ name: "block", src: "" },
       { name: "powerup", src: "assets/powerup.png" },
       { name: "monster", src: "assets/monster.png" }
     ],
@@ -97,6 +97,20 @@ function initGameObjects(canvasId, resourceManager) {
   g_player = player;
 
   // create the monster
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
+  var monster = new Creature();
+  monster.startupCreature(resourceManager.monster, level, gameManager);
   var monster = new Creature();
   monster.startupCreature(resourceManager.monster, level, gameManager);
 }

@@ -12,10 +12,11 @@ function Level() {
   this.startupLevel = function(gameManager) {
     this.blocks = [
       // 3, 2, 1, 1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 3, 2, 1
-      1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      //1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     ];
     this.powerups = [
-      'Gem', , , , , 'Gem', , , , 'Gem'
+      'Gem', , 'Gem', , , 'Gem', , , , 'Gem', 'Gem', 'Gem', 'Gem'
     ];
     this.addBlocks(gameManager);
     this.addPowerups(gameManager);
