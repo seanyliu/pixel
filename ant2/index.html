@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ant v2 Demo</title>
+    <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript" src="Utils.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="GameManager.js"></script>
+    <script type="text/javascript" src="GameObject.js"></script>
+    <script type="text/javascript" src="VisualGameObject.js"></script>
+    <script type="text/javascript" src="AnimatedVisualGameObject.js"></script>
+    <script type="text/javascript" src="Ant.js"></script>
+    <script type="text/javascript" src="Repellant.js"></script>
+    <script type="text/javascript" src="ResourceManager.js"></script>
+    <style>
+      html, body {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        color: #fff;
+      }
+
+      #canvas-container {
+        position: fixed;
+        border: 1px solid #EEE;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container">
+      <canvas id="pixel_canvas" width="400" height="400"><p>Browser does not support canvas.</p></canvas>
+    </div>
+    <div id="debug"></div>
+  </body>
+</html>
+
