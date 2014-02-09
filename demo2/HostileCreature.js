@@ -1,31 +1,13 @@
-function Creature() {
-
-  // velocities
-  this.velX = 0; // current
-  this.velY = 0; // current
-  this.GRAVITY = 31;
-  this.VELOCITY_JUMP = -210;
-  this.VELOCITY_X = 125;
-  this.grounded = true;
-
-  // whether to include this in the
-  // collision detection
-  this.BOX_COLLIDER = true;
-
-  // 1 / -1 = facing right / facing left
-  this.facingX = -1;
-
-  // stats
-  this.health = 100;
+function HostileCreature() {
 
   /**
    * Initialize object.
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
    */
-  this.startupCreature = function(image, xPos, yPos, zOrder, frameStart, frameEnd, frameWidth, frameHeight, collisionWidth, collisionHeight, gameManager) {
+  this.startupHostileCreature = function(image, xPos, yPos, zOrder, frameStart, frameEnd, frameWidth, frameHeight, collisionWidth, collisionHeight, gameManager) {
     // perform parent class startup
-    this.startupAnimatedVisualGameObject(
+    this.startupCreature(
       image,
       xPos,
       yPos,
@@ -41,62 +23,15 @@ function Creature() {
   }
 
   /**
-   * updates the animation. You need idleFacingLeft because
-   * when you stop moving, we don't know whether to face the character
-   * to the left or right, since we have no glimpse into past state.
-   * We could probably add a past state...but too lazy for now.
-   */
-  this.updateAnimation = function(idleFacingLeft) {
-    if (this.velX > 0) {
-      this.setAnimation(0, 3);
-    } else if (this.velX < 0) {
-      this.setAnimation(4, 7);
-    } else {
-      // idle
-      if (idleFacingLeft) {
-        // idle left
-        this.setAnimation(7, 7);
-      } else {
-        // idle right
-        this.setAnimation(0, 0);
-      }
-    }
-  }
-
-  /**
-   * Updates the object
-   */
-  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    this.xPos += this.velX * dt;
-    this.yPos += this.velY * dt;
-
-    if (!this.grounded) {
-      // apply gravity
-      this.velY = this.velY + this.GRAVITY;
-    }
-
-    // at the very end, set grounded to false.
-    // the collider function will set this to true
-    // in the collision loop
-    this.grounded = false;
-  }
-
-  /**
-   * Update health
-   */
-  this.updateHealth = function(dhealth) {
-    this.health += dhealth;
-    if (this.health < 0) {
-      this.health = 0;
-    }
-  }
-
-  /**
    * Process the collision
    */
   this.collide = function(/** GameObject */ other) {
     var myBox = this.collisionArea();
     var otherBox = other.collisionArea();
+
+    if (other instanceof PlayerCreature) {
+      other.updateHealth(-1);
+    }
 
     if (other instanceof Ground) {
 
@@ -160,12 +95,12 @@ function Creature() {
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
    */
-  this.shutdownCreature = function() {
+  this.shutdownHostileCreature = function() {
     // perform parent shutdown
-    this.shutdownAnimatedVisualGameObject();
+    this.shutdownCreature();
 
     // perform self shutdown
     // N/A
   }
 }
-Creature.prototype = new AnimatedVisualGameObject; // inheritance
+HostileCreature.prototype = new Creature; // inheritance

@@ -70,10 +70,10 @@ function initGameObjects(canvasId, resourceManager) {
   g_player = player;
 
   // create the player
-  var monster = new Creature();
-  monster.startupCreature(
+  var monster = new HostileCreature();
+  monster.startupHostileCreature(
     resourceManager.monster,
-    550, // xPos
+    250, // xPos
     400 - 64 - 120, // yPos
     0, // zOrder
     0, // frameStart

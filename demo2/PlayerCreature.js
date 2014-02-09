@@ -20,6 +20,9 @@ function PlayerCreature() {
       100, // collisionHeight
       gameManager
     );
+
+    this.velX = 0;
+    this.velY = 0;
   }
 
   /**
@@ -69,6 +72,7 @@ function PlayerCreature() {
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+    debug("  Health: "+this.health);
     this.xPos += this.velX * dt;
     this.yPos += this.velY * dt;
 
