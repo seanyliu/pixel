@@ -65,9 +65,25 @@ function initGameObjects(canvasId, resourceManager) {
   ground.startupGround(resourceManager.ground, 1200, 375, 0, 30, 16, gameManager);
 
   // create the player
-  var player = new Player();
-  player.startupPlayer(resourceManager.character, gameManager);
+  var player = new PlayerCreature();
+  player.startupPlayerCreature(resourceManager.character, gameManager);
   g_player = player;
+
+  // create the player
+  var monster = new Creature();
+  monster.startupCreature(
+    resourceManager.monster,
+    550, // xPos
+    400 - 64 - 120, // yPos
+    0, // zOrder
+    0, // frameStart
+    0, // frameEnd
+    120, // frameWidth
+    120, // frameHeight
+    45, // collisionWidth
+    100, // collisionHeight
+    gameManager
+  );
 
 }
 

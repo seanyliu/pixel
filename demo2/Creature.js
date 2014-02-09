@@ -1,160 +1,144 @@
 function Creature() {
-  // speed creature moves at
-  this.speed = 30;
-  this.horizontalDirection = 0; // -1, 0, 1 for left, still, right
-  this.verticalDirection = 0; // -1, 0, 1 for down, still, up
 
-  // jumping stats
-  this.jumpHeight = 64;
-  this.halfPI = Math.PI / 2;
-  this.jumpHangTime = 0.5; // amount of time to spend in the air
-  this.jumpSinWaveSpeed = this.halfPI / this.jumpHangTime; // speed to pregress along the sine wave
-  this.jumpSinWavePos = 0; // current position along the sine wave
-  this.fallMultiplier = 1.5; // rate to fall at
+  // velocities
+  this.velX = 0; // current
+  this.velY = 0; // current
+  this.GRAVITY = 31;
+  this.VELOCITY_JUMP = -210;
+  this.VELOCITY_X = 125;
   this.grounded = true;
+
+  // whether to include this in the
+  // collision detection
+  this.BOX_COLLIDER = true;
+
+  // 1 / -1 = facing right / facing left
+  this.facingX = 1;
 
   /**
    * Initialize object.
    * Note: you MUST include shutdown<object> because
    * otherwise you'll clobber the parent's version!
-   *
-   * Creatures need access to the level to make sure that they
-   * can only move to valid places.
    */
-  this.startupCreature = function(image, level, gameManager) {
+  this.startupCreature = function(image, xPos, yPos, zOrder, frameStart, frameEnd, frameWidth, frameHeight, collisionWidth, collisionHeight, gameManager) {
     // perform parent class startup
     this.startupAnimatedVisualGameObject(
       image,
-      Math.random() * gameManager.mainCanvas.width, // xPos
-      400 - 64 - 120, // yPos
-      0, // zOrder
-      0, // frameStart
-      0, // frameEnd
-      120, // frameWidth
-      120, // frameHeight
-      45, // collisionWidth
-      100, // collisionHeight
+      xPos,
+      yPos,
+      zOrder,
+      frameStart,
+      frameEnd,
+      frameWidth,
+      frameHeight,
+      collisionWidth,
+      collisionHeight,
       gameManager
     );
-    this.level = level;
   }
 
   /**
-   * make sure the creature cannot move through
-   * blocks, etc.
+   * updates the animation. You need idleFacingLeft because
+   * when you stop moving, we don't know whether to face the character
+   * to the left or right, since we have no glimpse into past state.
+   * We could probably add a past state...but too lazy for now.
    */
-  this.constrainToLevel = function(canvasContextHandle) {
-    // xPosition to test for collision. Sometimes top left, sometimes top right
-    var xTest = 0;
-
-    // constrain vertical movement
-    // check for collisions to stop the jump
-    // left side
-    var currentBlock1 = this.level.currentBlock(this.xPos);
-    // right side
-    var currentBlock2 = this.level.currentBlock(this.xPos + this.frameWidth);
-    // ground height below left side
-    var groundHeight1 = this.level.groundHeight(currentBlock1);
-    // ground height below right side
-    var groundHeight2 = this.level.groundHeight(currentBlock2);
-    // highest point under player
-    var maxGroundHeight = groundHeight1 > groundHeight2 ? groundHeight1 : groundHeight2;
-    // players height (relative to bottom of screen)
-    var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
-
-    // we hit ground
-    if (maxGroundHeight >= playerHeight) {
-      this.yPos = canvasContextHandle.canvas.height - maxGroundHeight - this.frameHeight;
-      this.grounded = true;
-      this.jumpSinWavePos = 0;
-    } else if (this.grounded) {
-      // we walked off a cliff
-      this.grounded = false;
-      // start falling down the size wave from the top
-      this.jumpSinWavePos = this.halfPI;
-    }
-
-    // contrain horizontal movement
-    // do this AFTER fixing the vertical piece, because otherwise you may "fall" into the ground
-    // i.e. from the falling * dt (if dt is huge), and then be in a collision permanently, and freeze
-    // the game
-    if (this.horizontalDirection != 0) {
-      // may have to push player back through several blocks
-      var collision = false;
-      do {
-        
-        // if running left, test left corner of sprite, otherwise right
-        xTest = this.xPos;
-        if (this.horizontalDirection > 0) xTest = this.xPos + this.frameWidth;
-
-        // get the ground height of the block at the given corner
-        var currentBlockIdx = this.level.currentBlock(xTest);
-        var groundHeight = this.level.groundHeight(currentBlockIdx);
-
-        // get the creature's height
-        var playerHeight = canvasContextHandle.canvas.height - (this.yPos + this.frameHeight);
-
-        // check if the creature intersecting the block
-        if (playerHeight < groundHeight) {
-          collision = true;
-          if (this.horizontalDirection > 0) {
-            // we are moving right, so push player left
-            this.xPos -= xTest - (this.level.blockWidth * currentBlockIdx) - 1;
-          } else {
-            this.xPos += this.level.blockWidth * (currentBlockIdx + 1) - this.xPos + 1;
-          }
-        } else {
-          collision = false;
-        }
-      } while (collision)
-    }
-
-    // keep the player bound to the level
-    if (this.xPos > this.level.blocks.length * this.level.blockWidth - this.frameWidth - 1) {
-      this.xPos = this.level.blocks.length * this.level.blockWidth - this.frameWidth - 1;
-    }
-    if (this.xPos < 0) {
-      this.xPos = 0;
+  this.updateAnimation = function(idleFacingLeft) {
+    if (this.velX > 0) {
+      this.setAnimation(0, 3);
+    } else if (this.velX < 0) {
+      this.setAnimation(4, 7);
+    } else {
+      // idle
+      if (idleFacingLeft) {
+        // idle left
+        this.setAnimation(7, 7);
+      } else {
+        // idle right
+        this.setAnimation(0, 0);
+      }
     }
   }
-
-  this.randDirection = Math.random(); // TODO: remove this
 
   /**
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+    this.xPos += this.velX * dt;
+    this.yPos += this.velY * dt;
 
-    if (this.randDirection > 0.5) {
-      this.setAnimation(0, 0); // idle right
-      this.horizontalDirection = 1;
-      this.xPos += this.speed * dt;
-    } else {
-      this.setAnimation(7, 7); // idle right
-      this.horizontalDirection = -1;
-      this.xPos -= this.speed * dt;
+    if (!this.grounded) {
+      // apply gravity
+      this.velY = this.velY + this.GRAVITY;
     }
 
+    // at the very end, set grounded to false.
+    // the collider function will set this to true
+    // in the collision loop
+    this.grounded = false;
+  }
 
-    // if the player is jumping or falling, move along the sine wave
-    if (!this.grounded) {
-      var lastHeight = this.jumpSinWavePos;
-      // the new position on the sine wave
-      this.jumpSinWavePos += this.jumpSinWaveSpeed * dt;
+  /**
+   * Process the collision
+   */
+  this.collide = function(/** GameObject */ other) {
+    var myBox = this.collisionArea();
+    var otherBox = other.collisionArea();
 
-      if (this.jumpSinWavePos >= Math.PI) {
-        // we have fallen off the bottom of the sine wave, so continue
-        // moving at a predetermined speed
-        this.yPos += this.jumpHeight / this.jumpHangTime * this.fallMultiplier * dt;
+    if (other instanceof Ground) {
+
+      // first handle the Y position
+      if (this.velY > 0) {
+        if (myBox.y + myBox.height > otherBox.y) {
+          // There's a Y intersect.
+          // Player is falling.  If the intersection is in the lower half of
+          // the player, we'll assume they came from above.
+          if (myBox.y + myBox.height/2 < otherBox.y) {
+            this.yPos -= (myBox.y + myBox.height - otherBox.y);
+            this.velY = 0;
+            this.grounded = true;
+          }
+          // If it's in the upper
+          // half of the player we'll assume that they may have been jumping,
+          // hit the peak of the jump, started falling, and then collided.
+        }
+      } else if (this.velY < 0) {
+        // don't include zero, even though we miss the peak of the jump,
+        // because if you're just running on ground, velY = 0;
+        if (otherBox.y + otherBox.height > myBox.y) {
+          // rising, so came from below, assuming the intersection is in the upper half of the player
+          if (myBox.y + myBox.height/2 > otherBox.y) {
+            this.yPos += otherBox.y + otherBox.height - myBox.y + 1;
+            this.velY = 0;
+          }
+        }
       } else {
-        // else move along the sine wave
-        this.yPos -= (Math.sin(this.jumpSinWavePos) - Math.sin(lastHeight)) * this.jumpHeight;
+        // if we don't have this, then the grounded check doesn't
+        // always seem to trigger because sometimes it catches at 0 velocity
+        // when it collides
+        this.grounded = true;
+      }
+
+      // update the collision area
+      myBox = this.collisionArea();
+
+      // check if we still have collision difficulties (e.g. your'e running
+      // sideways into a block). If so, handle X collisions.
+      if (this.gameManager.intersectsStrictly(myBox, otherBox)) {
+        // now handle the X position
+        if (this.velX > 0) {
+          // heading right, so check right side
+          if (myBox.x + myBox.width > otherBox.x) {
+            this.xPos -= (myBox.x + myBox.width - otherBox.x + 1);
+          }
+        } else if (this.velX < 0) {
+          // heading left, so check left side
+          if (otherBox.x + otherBox.width > myBox.x) {
+            this.xPos += (otherBox.x + otherBox.width - myBox.x + 1);
+          }
+        }
       }
     }
-
-    // this must got AFTER all movement updates
-    this.constrainToLevel(canvasContextHandle);
-
   }
 
   /**
