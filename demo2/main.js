@@ -55,14 +55,10 @@ function initGameObjects(canvasId, resourceManager) {
   ground.startupGround(resourceManager.ground, 450, 250, 0, 30, 16, gameManager);
   var ground = new Ground();
   ground.startupGround(resourceManager.ground, 270, 350, 0, 30, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 570, 350, 0, 30, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 750, 420, 0, 200, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 1000, 390, 0, 100, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 1200, 375, 0, 30, 16, gameManager);
+
+  // make the level infinite
+  var spawner = new Spawner();
+  spawner.startupSpawner(resourceManager.ground, 0, 0, 0, 650, 350, gameManager);
 
   // create the player
   var player = new PlayerCreature();

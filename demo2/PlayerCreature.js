@@ -21,7 +21,8 @@ function PlayerCreature() {
       gameManager
     );
 
-    this.velX = 0;
+    this.velX = 200;
+    this.updateAnimation();
     this.velY = 0;
   }
 
@@ -30,6 +31,7 @@ function PlayerCreature() {
    * through all the objects and invokes keyUp and keyDown.
    */
   this.keyDown = function(event) {
+/*
     if (event.keyCode == 37 && this.velX >= 0) {
       // left
       this.facingX = -1;
@@ -42,6 +44,7 @@ function PlayerCreature() {
       this.velX = this.VELOCITY_X;
       this.updateAnimation();
     }
+*/
     if (event.keyCode == 38 && this.grounded) {
       // up
       this.velY = this.VELOCITY_JUMP;
@@ -72,7 +75,7 @@ function PlayerCreature() {
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    debug("  Health: "+this.health);
+    //debug("  Health: "+this.health);
 
     // check for game over conditions
     if (this.health <= 0) {
@@ -92,13 +95,6 @@ function PlayerCreature() {
 
     // Scroll the page
     this.gameManager.xScroll = this.xPos - canvasContextHandle.canvas.width/2 + this.frameWidth/2;
-    if (this.xPos > 
-          (canvasContextHandle.canvas.width - this.frameWidth + xScroll)) {
-      this.gameManager.xScroll = this.xPos - (canvasContextHandle.canvas.width - this.frameWidth);
-    }
-    if (this.xPos < xScroll) {
-      this.gameManager.xScroll = this.xPos;
-    }
 
     // at the very end, set grounded to false.
     // the collider function will set this to true
