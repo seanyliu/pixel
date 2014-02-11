@@ -30,7 +30,8 @@ function GameManager(canvasHandle) {
 
   // game state (score, saving, etc)
   this.gameState = {
-    "score": 0
+    "score": 0,
+    "isAlive": 1
   }
 
   // watch for keyboard events
@@ -221,6 +222,16 @@ function GameManager(canvasHandle) {
   this.updateScore = function() {
     var score = document.getElementById("score");
     score.innerHTML = String(this.gameState["score"]);
+  }
+
+  /**
+   * Game over
+   */
+  this.gameOver = function() {
+    this.gameState["isAlive"] = 0;
+    // TODO: this should really just be an element vs a div?
+    $("#gameover-container").show();
+    this.stop();
   }
 }
 

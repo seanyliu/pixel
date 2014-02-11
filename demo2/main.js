@@ -102,7 +102,9 @@ $(window).focus(function() {
 });
 
 function button_start() {
-  GB_gameManager.start();
+  if (GB_gameManager.gameState["isAlive"] == 1) {
+    GB_gameManager.start();
+  }
 }
 
 function button_stop() {

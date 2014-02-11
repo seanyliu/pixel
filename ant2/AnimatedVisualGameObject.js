@@ -67,6 +67,7 @@ function AnimatedVisualGameObject() {
       frameStart, // frame to start with
       frameEnd // last frame
       ) {
+
     // do this object's startup
     this.currentFrame = frameStart;
     this.frameStart = frameStart;

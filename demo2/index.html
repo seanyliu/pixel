@@ -55,11 +55,29 @@
         top: 0px;
         left: 0px;
       }
+
+      #gameover-container {
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        width: 300px;
+        top: 30%;
+        left: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+        font-family: 'VT323';
+        font-size: 50px;
+        text-transform: uppercase;
+        display: none;
+      }
     </style>
   </head>
   <body>
     <div id="canvas-container">
       <canvas id="pixel_canvas" width="1" height="1"><p>Browser does not support canvas.</p></canvas>
+      <div id="gameover-container">
+        Game Over
+      </div>
       <div id="score-container">
         Score: <span id="score">0</span>
       </div>

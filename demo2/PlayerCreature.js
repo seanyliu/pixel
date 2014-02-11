@@ -73,6 +73,15 @@ function PlayerCreature() {
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
     debug("  Health: "+this.health);
+
+    // check for game over conditions
+    if (this.health <= 0) {
+      this.gameManager.gameOver();
+    }
+    if (this.yPos > canvasContextHandle.canvas.height) {
+      this.gameManager.gameOver();
+    }
+
     this.xPos += this.velX * dt;
     this.yPos += this.velY * dt;
 
