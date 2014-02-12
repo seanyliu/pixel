@@ -37,7 +37,7 @@
       #score-container {
         font-family: 'VT323';
         position: absolute;
-        bottom: -20px;
+        bottom: 20px;
         right: 30px;
         text-transform: uppercase;
       }
@@ -57,7 +57,7 @@
         left: 0px;
       }
 
-      #gameover-container {
+      #gameover-container, #score-container-gameover {
         position: absolute;
         top: 0px;
         text-align: center;
@@ -71,6 +71,12 @@
         text-transform: uppercase;
         display: none;
       }
+
+      #score-container-gameover {
+        top: 40%;
+        font-size: 30px;
+      }
+
     </style>
   </head>
   <body>
@@ -81,6 +87,9 @@
       </div>
       <div id="score-container">
         Score: <span id="score">0</span>
+      </div>
+      <div id="score-container-gameover">
+        Score: <span id="score-gameover">0</span>
       </div>
     </div>
     <!--

@@ -222,6 +222,10 @@ function GameManager(canvasHandle) {
   this.updateScore = function() {
     var score = document.getElementById("score");
     score.innerHTML = String(this.gameState["score"]);
+
+    // TODO: this should really be unified
+    score = document.getElementById("score-gameover");
+    score.innerHTML = String(this.gameState["score"]);
   }
 
   /**
@@ -231,6 +235,7 @@ function GameManager(canvasHandle) {
     this.gameState["isAlive"] = 0;
     // TODO: this should really just be an element vs a div?
     $("#gameover-container").show();
+    $("#score-container-gameover").show();
     this.stop();
   }
 }

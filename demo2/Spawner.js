@@ -4,6 +4,7 @@
  */
 function Spawner() {
   this.spawnImage = null;
+  this.powerupImage = null;
   this.lastSpawnXPos = 0;
   this.lastSpawnYPos = 0;
 
@@ -17,6 +18,7 @@ function Spawner() {
    */
   this.startupSpawner = function(
       spawnImage,
+      powerupImage,
       xPos,
       yPos,
       zOrder,
@@ -29,6 +31,7 @@ function Spawner() {
 
     // do this object's startup
     this.spawnImage = spawnImage;
+    this.powerupImage = powerupImage;
     this.lastSpawnXPos = lastSpawnXPos;
     this.lastSpawnYPos = lastSpawnYPos;
   }
@@ -45,6 +48,7 @@ function Spawner() {
     if (xScroll + canvasContextHandle.canvas.width > this.lastSpawnXPos) {
       // TODO: randomize these variables!
       var spawnDistance = 50 + Math.random() * 130;
+      var spawnX = this.lastSpawnXPos + spawnDistance;
       var spawnY = this.lastSpawnYPos - 50 + Math.random() * 100;
       spawnY = Math.max(0, spawnY);
       spawnY = Math.min(900, spawnY);
@@ -53,11 +57,23 @@ function Spawner() {
       var ground = new Ground();
       ground.startupGround(
         this.spawnImage,
-        this.lastSpawnXPos + spawnDistance, // xPos
+        spawnX,// xPos
         spawnY, // yPos
         0, // zOrder
         spawnWidth, // width
         16, // height
+        this.gameManager
+      );
+
+      var po = new PowerupAnimatedVisualGameObject();
+      po.startupPowerupAnimatedVisualGameObject(
+        10, // value
+        this.powerupImage, // image
+        spawnX + spawnWidth/2 - this.powerupImage.width/2,
+        spawnY - 40,
+        4, // zOrder
+        1, // frameCount
+        1, // fps
         this.gameManager
       );
 

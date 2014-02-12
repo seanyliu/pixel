@@ -58,7 +58,7 @@ function initGameObjects(canvasId, resourceManager) {
 
   // make the level infinite
   var spawner = new Spawner();
-  spawner.startupSpawner(resourceManager.ground, 0, 0, 0, 650, 350, gameManager);
+  spawner.startupSpawner(resourceManager.ground, resourceManager.powerup, 0, 0, 0, 650, 350, gameManager);
 
   // create the player
   var player = new PlayerCreature();

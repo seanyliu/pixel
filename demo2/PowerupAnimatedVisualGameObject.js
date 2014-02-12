@@ -15,6 +15,9 @@ function PowerupAnimatedVisualGameObject() {
   // the height of the powerup's bounce
   this.bounceHeight = 10;
 
+  // collision detection
+  this.BOX_COLLIDER = true;
+
   this.startupPowerupAnimatedVisualGameObject = function(
       value, // score of the powerup
       image,
@@ -44,9 +47,10 @@ function PowerupAnimatedVisualGameObject() {
     var lastSinWavePos = this.sinWavePos;
     this.sinWavePos += this.bounceSpeed * dt;
     this.yPos += (Math.sin(this.sinWavePos) - Math.sin(lastSinWavePos)) * this.bounceHeight;
+  }
 
-    // TODO: this should really be moved out into a collision detection function
-    if (this.collisionArea().intersects(g_player.collisionArea())) {
+  this.collide = function(/** GameObject */ other) {
+    if (other instanceof PlayerCreature) {
       this.shutdownPowerupAnimatedVisualGameObject();
       this.gameManager.gameState["score"] += this.value;
       this.gameManager.updateScore(); // updates the score on the screen
