@@ -14,10 +14,10 @@ function PlayerCreature() {
       0, // zOrder
       0, // frameStart
       0, // frameEnd
-      120, // frameWidth
-      120, // frameHeight
-      45, // collisionWidth
-      100, // collisionHeight
+      130, // frameWidth
+      130, // frameHeight
+      80, // collisionWidth
+      130, // collisionHeight
       gameManager
     );
 

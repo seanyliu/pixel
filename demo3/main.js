@@ -4,12 +4,14 @@ var g_player = null; // TODO: used for the Powerup...() class. Get rid of this g
 
 // Kick off the script
 window.onload = function() {
-  var canvasId = "pixel_canvas";
+  var canvasId = "pixel-canvas";
 
   // make the canvas take the entire width of the page
   var canvasElt = document.getElementById(canvasId);
-  canvasElt.height = document.body.offsetHeight;
-  canvasElt.width = document.body.offsetWidth;
+  //canvasElt.height = document.body.offsetHeight;
+  //canvasElt.width = document.body.offsetWidth;
+  canvasElt.height = 400;
+  canvasElt.width = document.body.offsetWidth * 0.75;
 
   // kick off the loading
   initResourceManager(canvasId);
@@ -24,14 +26,17 @@ function initResourceManager(canvasId) {
   var resourceManager = new ResourceManager();
   resourceManager.startupResourceManager(
     [
-      { name: "character", src: "assets/character2-sprites.png" },
+      { name: "character", src: "assets/underwear-man.png" },
       { name: "bgSky", src: "assets/bg-sky.png" },
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
+      { name: "bgScene", src: "assets/underwear-scene.png" },
+      { name: "bgBuildings", src: "assets/underwear-buildings.png" },
       { name: "ground", src: "assets/ground.png" },
       { name: "block", src: "assets/BlockA0.png" },
       { name: "powerup", src: "assets/powerup.png" },
-      { name: "monster", src: "assets/monster.png" }
+      { name: "monster", src: "assets/monster.png" },
+      { name: "blank", src: "assets/blank.png" }
     ],
     myCanvasHandle,
     function() { // callback function
@@ -48,13 +53,35 @@ function initGameObjects(canvasId, resourceManager) {
   GB_gameManager = gameManager;
   gameManager.start();
 
+  // load the scene bg
+  var bg = new RepeatingVisualGameObject();
+  bg.startupRepeatingVisualGameObject(
+    resourceManager.bgScene, // image
+    0, // xPos
+    0, // yPos
+    -2, // zOrder
+    gameManager.mainContext.canvas.width, // width
+    gameManager.mainContext.canvas.height, // height
+    0.5, // scrollFactor
+    gameManager
+  );
+
+  // load the scene buildings
+  var bg = new RepeatingVisualGameObject();
+  bg.startupRepeatingVisualGameObject(
+    resourceManager.bgBuildings, // image
+    0, // xPos
+    0, // yPos
+    -2, // zOrder
+    gameManager.mainContext.canvas.width, // width
+    gameManager.mainContext.canvas.height, // height
+    0.5, // scrollFactor
+    gameManager
+  );
+
   // create ground
   var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 250, 400, 0, 400, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 450, 250, 0, 30, 16, gameManager);
-  var ground = new Ground();
-  ground.startupGround(resourceManager.ground, 270, 350, 0, 30, 16, gameManager);
+  ground.startupGround(resourceManager.blank, 250, 350, 0, 400, 16, gameManager);
 
   // make the level infinite
   var spawner = new Spawner();
@@ -66,6 +93,7 @@ function initGameObjects(canvasId, resourceManager) {
   g_player = player;
 
   // create the player
+/*
   var monster = new HostileCreature();
   monster.startupHostileCreature(
     resourceManager.monster,
@@ -80,6 +108,7 @@ function initGameObjects(canvasId, resourceManager) {
     100, // collisionHeight
     gameManager
   );
+*/
 
 }
 
