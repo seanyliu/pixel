@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pixel Alchemies Demo</title>
+    <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript" src="Utils.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="GameManager.js"></script>
+    <script type="text/javascript" src="Level.js"></script>
+    <script type="text/javascript" src="GameObject.js"></script>
+    <script type="text/javascript" src="Spawner.js"></script>
+    <script type="text/javascript" src="VisualGameObject.js"></script>
+    <script type="text/javascript" src="DimensionedVisualGameObject.js"></script>
+    <script type="text/javascript" src="RepeatingVisualGameObject.js"></script>
+    <script type="text/javascript" src="AnimatedVisualGameObject.js"></script>
+    <script type="text/javascript" src="PowerupAnimatedVisualGameObject.js"></script>
+    <script type="text/javascript" src="Creature.js"></script>
+    <script type="text/javascript" src="HostileCreature.js"></script>
+    <script type="text/javascript" src="PlayerCreature.js"></script>
+    <script type="text/javascript" src="Ground.js"></script>
+    <script type="text/javascript" src="Rectangle.js"></script>
+    <script type="text/javascript" src="ResourceManager.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+    <style>
+      html, body {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #111;
+        position: relative;
+        color: #fff;
+      }
+
+      #score-container {
+        font-family: 'VT323';
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        text-transform: uppercase;
+      }
+
+      #canvas-container {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+
+      #debug {
+        color: #FFF;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+
+      #gameover-container, #score-container-gameover {
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        width: 300px;
+        top: 30%;
+        left: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+        font-family: 'VT323';
+        font-size: 50px;
+        text-transform: uppercase;
+        display: none;
+      }
+
+      #score-container-gameover {
+        top: 40%;
+        font-size: 30px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container">
+      <canvas id="pixel_canvas" width="1" height="1"><p>Browser does not support canvas.</p></canvas>
+      <div id="gameover-container">
+        Game Over
+      </div>
+      <div id="score-container">
+        Score: <span id="score">0</span>
+      </div>
+      <div id="score-container-gameover">
+        Score: <span id="score-gameover">0</span>
+      </div>
+    </div>
+    <!--
+    <input type="button" value="Start" onClick="button_start()">
+    <input type="button" value="Stop" onClick="button_stop()">
+    -->
+    <div id="debug"></div>
+  </body>
+</html>
+
