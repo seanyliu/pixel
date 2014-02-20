@@ -56,6 +56,7 @@ function PlayerCreature() {
    * through all the objects and invokes keyUp and keyDown.
    */
   this.keyUp = function(event) {
+/*
     if (event.keyCode == 37 && this.velX != 0) {
       // left
       this.velX = 0;
@@ -66,6 +67,7 @@ function PlayerCreature() {
       this.velX = 0;
       this.updateAnimation();
     }
+*/
     if (event.keyCode == 38) {
       // up
     }
