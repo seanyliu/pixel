@@ -38,6 +38,7 @@ function AnimatedVisualGameObject() {
       frameHeight,
       collisionWidth,
       collisionHeight,
+      animationSpeed,
       gameManager) {
     // error checking
     if (frameWidth <= 0) throw "frameWidth cannot be <= 0";
@@ -47,7 +48,7 @@ function AnimatedVisualGameObject() {
     this.startupVisualGameObject(image, xPos, yPos, zOrder, gameManager);
 
     // do this object's startup
-    this.timeBetweenFrames = 1/gameManager.FPS;
+    this.timeBetweenFrames = 1/gameManager.FPS * animationSpeed;
     //this.timeBetweenFrames = 1/gameManager.FPS;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;

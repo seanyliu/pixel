@@ -62,7 +62,7 @@ function initGameObjects(canvasId, resourceManager) {
     -2, // zOrder
     gameManager.mainContext.canvas.width, // width
     gameManager.mainContext.canvas.height, // height
-    0.5, // scrollFactor
+    0.75, // scrollFactor
     gameManager
   );
 
@@ -75,17 +75,23 @@ function initGameObjects(canvasId, resourceManager) {
     -2, // zOrder
     gameManager.mainContext.canvas.width, // width
     gameManager.mainContext.canvas.height, // height
-    0.5, // scrollFactor
+    0.75, // scrollFactor
     gameManager
   );
 
   // create ground
-  var ground = new Ground();
-  ground.startupGround(resourceManager.blank, 250, 350, 0, 400, 16, gameManager);
+  var ground = new InfiniteGround();
+  ground.startupInfiniteGround(
+    resourceManager.blank,
+    350, // yPos
+    0, // zOrder
+    16, // height
+    gameManager
+  );
 
   // make the level infinite
-  var spawner = new Spawner();
-  spawner.startupSpawner(resourceManager.ground, resourceManager.powerup, 0, 0, 0, 650, 350, gameManager);
+  //var spawner = new Spawner();
+  //spawner.startupSpawner(resourceManager.ground, resourceManager.powerup, 0, 0, 0, 650, 350, gameManager);
 
   // create the player
   var player = new PlayerCreature();

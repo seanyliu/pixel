@@ -38,6 +38,7 @@ function PowerupAnimatedVisualGameObject() {
       40, // frame height
       40, // collision width
       40, // collision height
+      1, // animation speed
       gameManager);
     this.value = value;
   }
