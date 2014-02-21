@@ -20,6 +20,7 @@ function HostileCreature() {
       collisionHeight,
       gameManager
     );
+    this.velX = 150;
   }
 
   /**
@@ -30,7 +31,7 @@ function HostileCreature() {
     var otherBox = other.collisionArea();
 
     if (other instanceof PlayerCreature) {
-      other.updateHealth(-1);
+      //other.updateHealth(-1);
     }
 
     if (other instanceof Ground) {
@@ -67,27 +68,27 @@ function HostileCreature() {
         // when it collides
         this.grounded = true;
       }
-    }
 
-    // update the collision area
-    myBox = this.collisionArea();
+      // update the collision area
+      myBox = this.collisionArea();
 
-    // check if we still have collision difficulties (e.g. your'e running
-    // sideways into a block). If so, handle X collisions.
-    if (this.gameManager.intersectsStrictly(myBox, otherBox)) {
-      // now handle the X position
-      if (this.velX > 0) {
-        // heading right, so check right side
-        if (myBox.x + myBox.width > otherBox.x) {
-          this.xPos -= (myBox.x + myBox.width - otherBox.x);
-        }
-      } else if (this.velX < 0) {
-        // heading left, so check left side
-        if (otherBox.x + otherBox.width > myBox.x) {
-          this.xPos += (otherBox.x + otherBox.width - myBox.x);
+      // check if we still have collision difficulties (e.g. your'e running
+      // sideways into a block). If so, handle X collisions.
+      if (this.gameManager.intersectsStrictly(myBox, otherBox)) {
+        // now handle the X position
+        if (this.velX > 0) {
+          // heading right, so check right side
+          if (myBox.x + myBox.width > otherBox.x) {
+            this.xPos -= (myBox.x + myBox.width - otherBox.x);
+          }
+        } else if (this.velX < 0) {
+          // heading left, so check left side
+          if (otherBox.x + otherBox.width > myBox.x) {
+            this.xPos += (otherBox.x + otherBox.width - myBox.x);
+          }
         }
       }
-    }
+    } // end instanceof ground
   }
 
   /**

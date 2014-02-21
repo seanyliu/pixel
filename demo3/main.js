@@ -27,6 +27,7 @@ function initResourceManager(canvasId) {
   resourceManager.startupResourceManager(
     [
       { name: "character", src: "assets/underwear-man.png" },
+      { name: "dog", src: "assets/dog.png" },
       { name: "bgSky", src: "assets/bg-sky.png" },
       { name: "bgTrees", src: "assets/bg-trees.png" },
       { name: "bgGround", src: "assets/bg-ground.png" },
@@ -97,6 +98,21 @@ function initGameObjects(canvasId, resourceManager) {
   var player = new PlayerCreature();
   player.startupPlayerCreature(resourceManager.character, gameManager);
   g_player = player;
+
+  var monster = new HostileCreature();
+  monster.startupHostileCreature(
+    resourceManager.dog,
+    750, // xPos
+    400 - 64 - 120, // yPos
+    0, // zOrder
+    0, // frameStart
+    2, // frameEnd
+    130, // frameWidth
+    130, // frameHeight
+    80, // collisionWidth
+    80, // collisionHeight
+    gameManager
+  );
 
   // create the player
 /*
