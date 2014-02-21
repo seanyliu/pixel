@@ -63,7 +63,7 @@ function initGameObjects(canvasId, resourceManager) {
     -2, // zOrder
     gameManager.mainContext.canvas.width, // width
     gameManager.mainContext.canvas.height, // height
-    0.75, // scrollFactor
+    1, // scrollFactor
     gameManager
   );
 
@@ -76,7 +76,7 @@ function initGameObjects(canvasId, resourceManager) {
     -2, // zOrder
     gameManager.mainContext.canvas.width, // width
     gameManager.mainContext.canvas.height, // height
-    0.75, // scrollFactor
+    0.1, // scrollFactor
     gameManager
   );
 

@@ -1,5 +1,16 @@
 function PlayerCreature() {
 
+  // state for fallen down
+  // in reality, you could merge isFallen
+  // and timeLeftForFall to be a single variable,
+  // but we split it for readability
+  this.isFallen = false;
+  this.FALL_DURATION_FRAMES = 30;
+  this.fallDuration = 0;
+  this.timeLeftForFall = 0;
+
+  this.runSpeed = 200;
+
   /**
    * Initialize object.
    * Note: you MUST include shutdown<object> because
@@ -20,10 +31,10 @@ function PlayerCreature() {
       130, // collisionHeight
       gameManager
     );
-
-    this.velX = 200;
-    this.updateAnimation();
+    this.fallDuration = 1/gameManager.FPS * this.FALL_DURATION_FRAMES;
+    this.velX = this.runSpeed;
     this.velY = 0;
+    this.updateAnimation();
   }
 
   /**
@@ -77,7 +88,16 @@ function PlayerCreature() {
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
-    //debug("  Health: "+this.health);
+
+    if (this.isFallen) {
+      this.timeLeftForFall -= dt;
+      if (this.timeLeftForFall <= 0) {
+        this.timeLeftForFall = 0;
+        this.velX = this.runSpeed;
+        this.isFallen = false;
+        this.updateAnimation();
+      }
+    }
 
     // check for game over conditions
     if (this.health <= 0) {
@@ -102,6 +122,26 @@ function PlayerCreature() {
     // the collider function will set this to true
     // in the collision loop
     this.grounded = false;
+  }
+
+  /**
+   * Process the collision
+   */
+  this.collide = function(/** GameObject */ other) {
+    if (other instanceof PlayerCreature) {
+      //other.updateHealth(-1);
+    }
+
+    if (other instanceof Ground) {
+      this.collideGround(other);
+    }
+
+    if (other instanceof HostileCreature) {
+      this.isFallen = true;
+      this.timeLeftForFall = this.fallDuration;
+      this.setAnimation(4,4);
+      this.velX = 0;
+    }
   }
 
   /**
