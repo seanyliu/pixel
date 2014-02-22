@@ -56,7 +56,7 @@ function PlayerCreature() {
       this.updateAnimation();
     }
 */
-    if (event.keyCode == 38 && this.grounded) {
+    if (event.keyCode == 38 && this.grounded && !this.isFallen) {
       // up
       this.velY = this.VELOCITY_JUMP;
     }
