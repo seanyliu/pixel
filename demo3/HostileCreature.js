@@ -24,6 +24,29 @@ function HostileCreature() {
   }
 
   /**
+   * Updates the object
+   */
+  this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+    this.xPos += this.velX * dt;
+    this.yPos += this.velY * dt;
+
+    if (!this.grounded) {
+      // apply gravity
+      this.velY = this.velY + this.GRAVITY;
+    }
+
+    // Remove the object one you disappear off screen
+    if (this.xPos < xScroll - this.frameWidth) {
+      this.shutdownHostileCreature();
+    }
+
+    // at the very end, set grounded to false.
+    // the collider function will set this to true
+    // in the collision loop
+    this.grounded = false;
+  }
+
+  /**
    * Process the collision
    */
   this.collide = function(/** GameObject */ other) {
