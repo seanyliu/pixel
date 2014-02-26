@@ -19,7 +19,7 @@ function InfiniteGround() {
       gameManager.xScroll, // xPos
       yPos,
       zOrder, // zOrder
-      gameManager.mainContext.canvas.width, // width
+      gameManager.mainContext.canvas.width * 1.3, // width. Add extra 30% to make sure extends a bit beyond
       height, // height
       gameManager
     );
