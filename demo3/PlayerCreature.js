@@ -59,7 +59,7 @@ function PlayerCreature() {
       this.updateAnimation();
     }
 */
-    if (event.keyCode == 38 && this.grounded) {
+    if ((event.keyCode == 38 || event.keyCode == 32) && this.grounded) {
       // up
 
       // simple, fixed jump:
@@ -88,7 +88,7 @@ function PlayerCreature() {
       this.updateAnimation();
     }
 */
-    if (event.keyCode == 38) {
+    if (event.keyCode == 38 || event.keyCode == 32) {
       // up
       this.keyUpIsPressed = false;
     }
