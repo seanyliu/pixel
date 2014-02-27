@@ -5,7 +5,7 @@
 function HostileSpawner() {
   this.spawnImage = null;
   this.timeToNextSpawn = 0;
-  this.MAX_SPAWN_TIME = 7.0; // will be a random interval between 0 and MAX_SPAWN_TIME
+  this.maxSpawnTime = 7.0; // will be a random interval between 0 and maxSpawnTime
 
   /**
    * Initialize object.
@@ -17,6 +17,7 @@ function HostileSpawner() {
       xPos,
       yPos,
       zOrder,
+      maxSpawnTime,
       gameManager) {
 
     // perform parent class startup
@@ -24,17 +25,18 @@ function HostileSpawner() {
 
     // do this object's startup
     this.spawnImage = spawnImage;
-    this.timeToNextSpawn = 0;
+    this.maxSpawnTime = maxSpawnTime;
+    this.timeToNextSpawn = Math.random() * maxSpawnTime;
   }
 
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
     this.xPos = xScroll + this.gameManager.mainContext.canvas.width * 1.2;
 
-    this.timeToNextSpawn = this.timeToNextSpawn - dt;
+    this.timeToNextSpawn -= dt;
 
     if (this.timeToNextSpawn < 0) {
       // TODO: add a randomizer here
-      this.timeToNextSpawn = this.MAX_SPAWN_TIME * Math.random();
+      this.timeToNextSpawn = this.maxSpawnTime * Math.random();
 
       var monster = new HostileCreature();
       monster.startupHostileCreature(

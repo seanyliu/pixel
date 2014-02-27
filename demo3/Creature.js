@@ -37,7 +37,7 @@ function Creature() {
       frameHeight,
       collisionWidth,
       collisionHeight,
-      1.5, // animation speed
+      1.2, // animation speed
       gameManager
     );
   }

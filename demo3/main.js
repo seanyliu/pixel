@@ -97,6 +97,7 @@ function initGameObjects(canvasId, resourceManager) {
     gameManager.mainContext.canvas.width * 1.2, // xPos
     400 - 64 - 120, // yPos
     0, // zOrder
+    6, // maxSpawnTime
     gameManager);
 
   // create the player
