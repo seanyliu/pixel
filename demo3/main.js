@@ -91,14 +91,20 @@ function initGameObjects(canvasId, resourceManager) {
   );
 
   // make the level infinite
-  //var spawner = new Spawner();
-  //spawner.startupSpawner(resourceManager.ground, resourceManager.powerup, 0, 0, 0, 650, 350, gameManager);
+  var spawner = new HostileSpawner();
+  spawner.startupHostileSpawner(
+    resourceManager.dog, // spawnImage
+    gameManager.mainContext.canvas.width * 1.2, // xPos
+    400 - 64 - 120, // yPos
+    0, // zOrder
+    gameManager);
 
   // create the player
   var player = new PlayerCreature();
   player.startupPlayerCreature(resourceManager.character, gameManager);
   g_player = player;
 
+/*
   var monster = new HostileCreature();
   monster.startupHostileCreature(
     resourceManager.dog,
@@ -113,6 +119,7 @@ function initGameObjects(canvasId, resourceManager) {
     80, // collisionHeight
     gameManager
   );
+*/
 
   // create the player
 /*

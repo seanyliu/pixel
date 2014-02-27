@@ -1,8 +1,8 @@
 /**
- * Spawns ground just outside the width of the screen.
+ * Spawns hostile creatures
  * Makes the game infinite!
  */
-function Spawner() {
+function HostileSpawner() {
   this.spawnImage = null;
   this.powerupImage = null;
   this.lastSpawnXPos = 0;
