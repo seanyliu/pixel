@@ -4,7 +4,8 @@ function Creature() {
   this.velX = 0; // current
   this.velY = 0; // current
   this.GRAVITY = 31;
-  this.VELOCITY_JUMP = -310;
+  this.VELOCITY_JUMP_MAX = -260;
+  this.VELOCITY_JUMP_INCREMENT = -50;
   this.VELOCITY_X = 125;
   this.grounded = true;
 

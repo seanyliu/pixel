@@ -5,9 +5,12 @@ function PlayerCreature() {
   // and timeLeftForFall to be a single variable,
   // but we split it for readability
   this.isFallen = false;
-  this.FALL_DURATION_FRAMES = 30;
+  this.FALL_DURATION_FRAMES = 15;
   this.fallDuration = 0;
   this.timeLeftForFall = 0;
+
+  this.keyUpIsPressed = false;
+  this.maxJumpVelAchieved = false;
 
   this.runSpeed = 200;
 
@@ -56,9 +59,15 @@ function PlayerCreature() {
       this.updateAnimation();
     }
 */
-    if (event.keyCode == 38 && this.grounded && !this.isFallen) {
+    if (event.keyCode == 38 && this.grounded) {
       // up
-      this.velY = this.VELOCITY_JUMP;
+
+      // simple, fixed jump:
+      //this.velY = this.VELOCITY_JUMP;
+
+      // instead, make the user jump higher if they hold the jump key
+      this.keyUpIsPressed = true;
+      this.maxJumpVelAchieved = false;
     }
   }
 
@@ -81,6 +90,7 @@ function PlayerCreature() {
 */
     if (event.keyCode == 38) {
       // up
+      this.keyUpIsPressed = false;
     }
   }
 
@@ -88,6 +98,16 @@ function PlayerCreature() {
    * Updates the object
    */
   this.update = function(dt, canvasContextHandle, xScroll, yScroll) {
+
+    // Make the user jump higher if they keep holding the up key
+    if (this.keyUpIsPressed && !this.isFallen && !this.maxJumpVelAchieved) {
+      this.velY += this.VELOCITY_JUMP_INCREMENT;
+    }
+
+    // But cap just how high the user can jump
+    if (this.velY < this.VELOCITY_JUMP_MAX) {
+      this.maxJumpVelAchieved = true;
+    }
 
     if (this.isFallen) {
       this.timeLeftForFall -= dt;
