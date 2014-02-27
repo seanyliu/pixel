@@ -5,7 +5,7 @@ function PlayerCreature() {
   // and timeLeftForFall to be a single variable,
   // but we split it for readability
   this.isFallen = false;
-  this.FALL_DURATION_FRAMES = 15;
+  this.FALL_DURATION_FRAMES = 5;
   this.fallDuration = 0;
   this.timeLeftForFall = 0;
 

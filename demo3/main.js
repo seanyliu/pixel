@@ -28,15 +28,8 @@ function initResourceManager(canvasId) {
     [
       { name: "character", src: "assets/underwear-man.png" },
       { name: "dog", src: "assets/dog.png" },
-      { name: "bgSky", src: "assets/bg-sky.png" },
-      { name: "bgTrees", src: "assets/bg-trees.png" },
-      { name: "bgGround", src: "assets/bg-ground.png" },
-      { name: "bgScene", src: "assets/underwear-scene.png" },
+      { name: "bgScene", src: "assets/underwear-scene-full.png" },
       { name: "bgBuildings", src: "assets/underwear-buildings.png" },
-      { name: "ground", src: "assets/ground.png" },
-      { name: "block", src: "assets/BlockA0.png" },
-      { name: "powerup", src: "assets/powerup.png" },
-      { name: "monster", src: "assets/monster.png" },
       { name: "blank", src: "assets/blank.png" }
     ],
     myCanvasHandle,
@@ -63,11 +56,12 @@ function initGameObjects(canvasId, resourceManager) {
     -2, // zOrder
     gameManager.mainContext.canvas.width, // width
     gameManager.mainContext.canvas.height, // height
-    1, // scrollFactor
+    0.7, // scrollFactor
     gameManager
   );
 
   // load the scene buildings
+/*
   var bg = new RepeatingVisualGameObject();
   bg.startupRepeatingVisualGameObject(
     resourceManager.bgBuildings, // image
@@ -79,6 +73,7 @@ function initGameObjects(canvasId, resourceManager) {
     0.1, // scrollFactor
     gameManager
   );
+*/
 
   // create ground
   var ground = new InfiniteGround();
