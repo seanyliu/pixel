@@ -37,6 +37,12 @@ function HostileCreature() {
 
     // Remove the object one you disappear off screen
     if (this.xPos < xScroll - this.frameWidth) {
+
+      // update score
+      this.gameManager.gameState["score"] += 1;
+      this.gameManager.updateScore();
+
+      // then clobber the object
       this.shutdownHostileCreature();
     }
 

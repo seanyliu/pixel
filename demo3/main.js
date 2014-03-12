@@ -30,6 +30,7 @@ function initResourceManager(canvasId) {
       { name: "dog", src: "assets/dog.png" },
       { name: "bgScene", src: "assets/underwear-scene-full.png" },
       { name: "bgBuildings", src: "assets/underwear-buildings.png" },
+      { name: "heart", src: "assets/heart.png" },
       { name: "blank", src: "assets/blank.png" }
     ],
     myCanvasHandle,
@@ -99,6 +100,11 @@ function initGameObjects(canvasId, resourceManager) {
   var player = new PlayerCreature();
   player.startupPlayerCreature(resourceManager.character, gameManager);
   g_player = player;
+
+  // create the health bar
+  var healthMeter = new HealthMeter();
+  healthMeter.startupHealthMeter(resourceManager.heart, player, gameManager);
+
 
 /*
   var monster = new HostileCreature();

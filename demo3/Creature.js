@@ -17,7 +17,7 @@ function Creature() {
   this.facingX = -1;
 
   // stats
-  this.health = 100;
+  this.health = 3;
 
   /**
    * Initialize object.

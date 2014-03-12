@@ -38,6 +38,7 @@ function PlayerCreature() {
     this.velX = this.runSpeed;
     this.velY = 0;
     this.updateAnimation();
+    this.health = 3;
   }
 
   /**
@@ -157,6 +158,9 @@ function PlayerCreature() {
     }
 
     if (other instanceof HostileCreature) {
+      if (!this.isFallen) {
+        this.health = this.health - 1;
+      }
       this.isFallen = true;
       this.timeLeftForFall = this.fallDuration;
       this.setAnimation(4,4);
