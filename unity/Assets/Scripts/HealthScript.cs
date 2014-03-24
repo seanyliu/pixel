@@ -26,6 +26,9 @@ public class HealthScript : MonoBehaviour {
 			// Explosion!
 			SpecialEffectsHelper.Instance.Explosion(transform.position);
 
+			// Sound!
+			SoundEffectsHelper.Instance.MakeExplosionSound();
+
 			// Dead!
 			Destroy(gameObject);
 		}
