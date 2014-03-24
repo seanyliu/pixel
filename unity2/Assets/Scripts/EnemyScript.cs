@@ -24,7 +24,9 @@ public class EnemyScript : MonoBehaviour {
 	// Disable everything (while off screen)
 	void Start() {
 		hasSpawn = false;
-		
+
+		/*
+		 * REMOVE DISABLING OF STUFF OFF SCREEN
 		// Disable everything
 		// -- collider
 		collider2D.enabled = false;
@@ -34,6 +36,7 @@ public class EnemyScript : MonoBehaviour {
 		foreach (WeaponScript weapon in weapons) {
 			weapon.enabled = false;
 		}
+		*/
 	}
 
 	// Update is called once per frame
@@ -67,7 +70,9 @@ public class EnemyScript : MonoBehaviour {
 	// Activate itself (called when gets on screen)
 	private void Spawn() {
 		hasSpawn = true;
-		
+
+		/*
+		 * REMOVE ENABLING OFF STUFF OFF SCREEN
 		// Enable everything
 		// -- Collider
 		collider2D.enabled = true;
@@ -77,5 +82,6 @@ public class EnemyScript : MonoBehaviour {
 		foreach (WeaponScript weapon in weapons) {
 			weapon.enabled = true;
 		}
+		*/
 	}
 }

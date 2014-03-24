@@ -10,13 +10,20 @@ public class PlayerScript : MonoBehaviour {
 	public Vector2 speed = new Vector2(50,50);
 
 	// Store the movement
-	private Vector2 movement;
+	private Vector2 velocity;
 
 	// Jumping vars
 	private float distToGround;
 	private bool grounded = true;
-	public float jumpUpPower = 1000;
-	public float jumpDownPower = -500;
+	public Transform groundCheck;
+	public float groundRadius = 0.2f;
+	public LayerMask whatIsGround;
+	public int maxJumps = 2;
+	public float doubleJumpMultiplier = 2.0f;
+	private int currentJumps = 0;
+	private bool jumpPressed = false;
+
+	public float jumpForce = 1000;
 
 
 	// Use this for initialization
@@ -36,6 +43,7 @@ public class PlayerScript : MonoBehaviour {
 		// Equivalent to button pressing (which only give 0 or 1),
 		// whereas an axis gives a whole float.
 		/*
+		 * DISABLE LEFT AND RIGHT MOVEMENT
 		float inputX = Input.GetAxis ("Horizontal");
 		float inputY = Input.GetAxis ("Vertical");
 
@@ -44,7 +52,10 @@ public class PlayerScript : MonoBehaviour {
 			speed.x * inputX,
 			speed.y * inputY
 			);
+        */
 
+		/*
+		 * DISABLE SHOOTING
 		// Shooting
 		bool shoot = Input.GetButtonDown("Fire1");
 		shoot |= Input.GetButtonDown("Fire2");
@@ -62,18 +73,9 @@ public class PlayerScript : MonoBehaviour {
 		}
 		*/
 
-		// BAH check 53:55 of http://unity3d.com/learn/tutorials/modules/beginner/2d/2d-controllers
-		bool jump = Input.GetButtonDown("Fire1");
-		jump |= Input.GetButtonDown("Fire2");
-
-		// JUMPING 
-		if (jump) {
-			Debug.Log(isGrounded());
-			if (isGrounded()) {
-				gameObject.rigidbody2D.AddForce(transform.up * jumpUpPower);
-				grounded = false;
-			}
-		}
+		jumpPressed = Input.GetButtonDown("Fire1");
+		jumpPressed |= Input.GetButtonDown("Fire2");
+		jumpPressed |= Input.GetAxis ("Vertical") > 0;
 
 		// Make sure we are not outside the camera bounds
 		var dist = (transform.position - Camera.main.transform.position).z;
@@ -109,7 +111,21 @@ public class PlayerScript : MonoBehaviour {
 		// This will tell the physic engine to move the game
 		// object. We do that in FixedUpdate() as it is
 		// recommended to do everything that is physics-related in there.
-		rigidbody2D.velocity = movement;
+
+		// DISABLE LEFT AND RIGHT MOVEMENT
+		// rigidbody2D.velocity = movement;
+
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
+		if (grounded) {
+			currentJumps = 0; // allow double jumps
+		}
+		Debug.Log(currentJumps);
+		
+		// JUMPING 
+		if ((grounded || (currentJumps < maxJumps - 1)) && jumpPressed) {
+			rigidbody2D.AddForce(new Vector2(0, jumpForce));
+			currentJumps++;
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
