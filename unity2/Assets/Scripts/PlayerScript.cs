@@ -12,24 +12,29 @@ public class PlayerScript : MonoBehaviour {
 	// Store the movement
 	private Vector2 velocity;
 
-	// Jumping vars
-	private float distToGround;
+	// Jumping collision vars
 	private bool grounded = true;
 	public Transform groundCheck;
 	public float groundRadius = 0.2f;
 	public LayerMask whatIsGround;
-	public int maxJumps = 2;
-	public float doubleJumpMultiplier = 2.0f;
-	private int currentJumps = 0;
-	private bool jumpPressed = false;
 
+	// Jumping vars
+	public int maxJumps = 2;
+	private int currentJumps = 0;
 	public float jumpForce = 1000;
 
+	// Jumping touch detection
+	private bool jumpPressed = false;
+	public float jumpMinCooldown = 0.01f;
+	private float jumpCooldown;
+
+	// Scoring variables
+	public LayerMask allButPlayer;
+	private int lastScoredEnemyInstanceID;
 
 	// Use this for initialization
 	void Start () {
-		distToGround = renderer.bounds.extents.y;
-		Debug.Log (distToGround);
+		jumpCooldown = 0f;
 	}
 	
 	// Update is called once per frame
@@ -73,9 +78,17 @@ public class PlayerScript : MonoBehaviour {
 		}
 		*/
 
-		jumpPressed = Input.GetButtonDown("Fire1");
-		jumpPressed |= Input.GetButtonDown("Fire2");
-		jumpPressed |= Input.GetAxis ("Vertical") > 0;
+		// Touch registers a TON of presses, so add a min cooldown
+		if (jumpCooldown > 0) {
+			jumpCooldown -= Time.deltaTime;
+			jumpPressed = false;
+		} else {
+			//jumpPressed = Input.GetButtonDown("Fire1");
+			//jumpPressed |= Input.GetButtonDown("Fire2");
+			jumpPressed = Input.GetAxis ("Vertical") > 0;
+			jumpPressed |= Input.GetMouseButtonDown(0);
+			jumpCooldown = jumpMinCooldown;
+		}
 
 		// Make sure we are not outside the camera bounds
 		var dist = (transform.position - Camera.main.transform.position).z;
@@ -126,6 +139,17 @@ public class PlayerScript : MonoBehaviour {
 			rigidbody2D.AddForce(new Vector2(0, jumpForce));
 			currentJumps++;
 		}
+
+		RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, Mathf.Infinity, allButPlayer);
+		if (hit != null) {
+			Debug.Log(hit.collider.gameObject.name);
+			int hitInstanceID = hit.collider.gameObject.GetInstanceID();
+			if (hit.collider.gameObject.GetComponent<EnemyScript>() != null && hitInstanceID != lastScoredEnemyInstanceID) {
+				ScoreKeeperScript.Score++;
+				lastScoredEnemyInstanceID = hitInstanceID;
+			}
+		}
+
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
@@ -147,10 +171,6 @@ public class PlayerScript : MonoBehaviour {
 			if (playerHealth != null) playerHealth.Damage(1);
 		}
 
-	}
-
-	bool isGrounded() {
-		return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.01f);
 	}
 
 	void OnDestroy() {

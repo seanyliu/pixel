@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// Spawns enemies
 /// </summary>
-public class EnemySpawner : MonoBehaviour {
+public class EnemySpawnerScript : MonoBehaviour {
 
 	/// <summary>
 	/// Enemy prefab to spawn

@@ -10,6 +10,7 @@ public class HealthScript : MonoBehaviour {
 	/// Total hitpoints
 	/// </summary>
 	public int hp = 1;
+	public int maxHp = 3;
 
 	/// <summary>
 	/// Enemy or player?

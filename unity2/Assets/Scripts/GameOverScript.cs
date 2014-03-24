@@ -14,8 +14,8 @@ public class GameOverScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		const int buttonWidth = 300;
-		const int buttonHeight = 100;
+		const int buttonWidth = 600;
+		const int buttonHeight = 200;
 
 		// Set the skin to use
 		GUI.skin = skin;
