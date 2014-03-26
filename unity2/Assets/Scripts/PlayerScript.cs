@@ -32,6 +32,8 @@ public class PlayerScript : MonoBehaviour {
 	public LayerMask allButPlayer;
 	private int lastScoredEnemyInstanceID;
 
+	private int counter;
+
 	// Use this for initialization
 	void Start () {
 		jumpCooldown = 0f;
@@ -39,6 +41,11 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+			counter++;
+		}
+		//Debug.Log (counter);
 
 		// Retrieve axis information
 		// We use the default axis that can be redefined in
@@ -85,10 +92,15 @@ public class PlayerScript : MonoBehaviour {
 		} else {
 			//jumpPressed = Input.GetButtonDown("Fire1");
 			//jumpPressed |= Input.GetButtonDown("Fire2");
-			jumpPressed = Input.GetAxis ("Vertical") > 0;
-			jumpPressed |= Input.GetMouseButtonDown(0);
+			//jumpPressed = Input.GetAxis ("Vertical") > 0;
+			jumpPressed = Input.GetKeyDown(KeyCode.UpArrow);
+			jumpPressed |= (Input.touchCount > 0 && 
+			                Input.GetTouch(0).phase == TouchPhase.Began);
+			//jumpPressed |= Input.GetMouseButtonDown(0);
 			jumpCooldown = jumpMinCooldown;
 		}
+
+		Debug.Log (jumpPressed);
 
 		// Make sure we are not outside the camera bounds
 		var dist = (transform.position - Camera.main.transform.position).z;
@@ -120,6 +132,7 @@ public class PlayerScript : MonoBehaviour {
 	// You should use this method over Update() when dealing
 	// with physics ("RigidBody" and forces).
 	void FixedUpdate() {
+		Debug.Log ("velocity2: "+rigidbody2D.velocity.y);
 		// move the game object
 		// This will tell the physic engine to move the game
 		// object. We do that in FixedUpdate() as it is
@@ -132,17 +145,18 @@ public class PlayerScript : MonoBehaviour {
 		if (grounded) {
 			currentJumps = 0; // allow double jumps
 		}
-		Debug.Log(currentJumps);
+		//Debug.Log(currentJumps);
 		
 		// JUMPING 
 		if ((grounded || (currentJumps < maxJumps - 1)) && jumpPressed) {
+			rigidbody2D.velocity = new Vector2(0, 0);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce));
 			currentJumps++;
 		}
 
 		RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, Mathf.Infinity, allButPlayer);
 		if (hit != null) {
-			Debug.Log(hit.collider.gameObject.name);
+			//Debug.Log(hit.collider.gameObject.name);
 			int hitInstanceID = hit.collider.gameObject.GetInstanceID();
 			if (hit.collider.gameObject.GetComponent<EnemyScript>() != null && hitInstanceID != lastScoredEnemyInstanceID) {
 				ScoreKeeperScript.Score++;
