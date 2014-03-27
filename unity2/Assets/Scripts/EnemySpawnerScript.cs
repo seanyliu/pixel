@@ -45,7 +45,7 @@ public class EnemySpawnerScript : MonoBehaviour {
 		if (CanSpawn) {
 			spawnCooldown = Random.Range (0f, spawnRate);
 			spawnCooldown = Mathf.Max(spawnCooldown, minCooldown);
-			Debug.Log(spawnRate);
+			//Debug.Log(spawnRate);
 			
 			// Create a new shot
 			var enemyTransform = Instantiate(enemyPrefab) as Transform;

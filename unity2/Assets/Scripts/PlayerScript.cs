@@ -27,6 +27,9 @@ public class PlayerScript : MonoBehaviour {
 	private bool jumpPressed = false;
 	public float jumpMinCooldown = 0.01f;
 	private float jumpCooldown;
+	private int touchFingerId = -1;
+	private int jumpId = -1;
+	private int jumpIdProcessed = -1;
 
 	// Scoring variables
 	public LayerMask allButPlayer;
@@ -41,50 +44,7 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			counter++;
-		}
-		//Debug.Log (counter);
-
-		// Retrieve axis information
-		// We use the default axis that can be redefined in
-		// "Edit" -> "Project Settings" -> "Input". This will
-		// return a value between [-1, 1], 0 being the idle
-		// state, 1 the right, -1 the left.
-		// Equivalent to button pressing (which only give 0 or 1),
-		// whereas an axis gives a whole float.
 		/*
-		 * DISABLE LEFT AND RIGHT MOVEMENT
-		float inputX = Input.GetAxis ("Horizontal");
-		float inputY = Input.GetAxis ("Vertical");
-
-		// Movement per direction
-		movement = new Vector2 (
-			speed.x * inputX,
-			speed.y * inputY
-			);
-        */
-
-		/*
-		 * DISABLE SHOOTING
-		// Shooting
-		bool shoot = Input.GetButtonDown("Fire1");
-		shoot |= Input.GetButtonDown("Fire2");
-		// Careful: For Mac users, ctrl + arrow is a bad idea
-		
-		if (shoot) {
-			WeaponScript weapon = GetComponent<WeaponScript>();
-			if (weapon != null)	{
-				// false because the player is not an enemy
-				weapon.Attack(false);
-
-				// Sound!
-				SoundEffectsHelper.Instance.MakePlayerShotSound();
-			}
-		}
-		*/
-
 		// Touch registers a TON of presses, so add a min cooldown
 		if (jumpCooldown > 0) {
 			jumpCooldown -= Time.deltaTime;
@@ -94,13 +54,31 @@ public class PlayerScript : MonoBehaviour {
 			//jumpPressed |= Input.GetButtonDown("Fire2");
 			//jumpPressed = Input.GetAxis ("Vertical") > 0;
 			jumpPressed = Input.GetKeyDown(KeyCode.UpArrow);
-			jumpPressed |= (Input.touchCount > 0 && 
-			                Input.GetTouch(0).phase == TouchPhase.Began);
+			//jumpPressed |= (Input.touchCount > 0 && 
+			//                Input.GetTouch(0).phase == TouchPhase.Ended);
 			//jumpPressed |= Input.GetMouseButtonDown(0);
 			jumpCooldown = jumpMinCooldown;
 		}
+		// See http://pixelnest.io/tutorials/unity-touch-controls/
+		*/
 
-		Debug.Log (jumpPressed);
+		jumpPressed = false;
+		if (Input.touchCount > 0) {
+			Touch touch = Input.GetTouch (0);
+			if (touch.phase == TouchPhase.Began) {
+				if (touch.fingerId != touchFingerId) { // new touch
+					jumpPressed = true;
+					jumpId++;
+					touchFingerId = touch.fingerId;
+					Debug.Log ("TOUCH BEGIN: "+touchFingerId);
+				}
+			} else if (touch.phase == TouchPhase.Ended) {
+				Debug.Log ("TOUCH END: "+touchFingerId);
+				touchFingerId = -1;
+			}
+		}
+
+		//Debug.Log (jumpPressed);
 
 		// Make sure we are not outside the camera bounds
 		var dist = (transform.position - Camera.main.transform.position).z;
@@ -132,7 +110,7 @@ public class PlayerScript : MonoBehaviour {
 	// You should use this method over Update() when dealing
 	// with physics ("RigidBody" and forces).
 	void FixedUpdate() {
-		Debug.Log ("velocity2: "+rigidbody2D.velocity.y);
+		//Debug.Log ("velocity2: "+rigidbody2D.velocity.y);
 		// move the game object
 		// This will tell the physic engine to move the game
 		// object. We do that in FixedUpdate() as it is
@@ -148,12 +126,27 @@ public class PlayerScript : MonoBehaviour {
 		//Debug.Log(currentJumps);
 		
 		// JUMPING 
+		//Debug.Log ("jumpPressed: " + jumpPressed);
+		Debug.Log ("currentJumps: " + currentJumps + "; maxJumps:" + maxJumps + "; grounded: " +grounded + "; jumpId: "+jumpId+"; jumpIdProcessed:"+jumpIdProcessed+"; "+ (jumpPressed && ((currentJumps < maxJumps) || grounded) && jumpIdProcessed != jumpId));
+		if (jumpPressed && ((currentJumps < maxJumps) || grounded) && jumpIdProcessed != jumpId) {
+			Debug.Log ("JUMP1!");
+			rigidbody2D.velocity = new Vector2(0, 0);
+			rigidbody2D.AddForce(new Vector2(0, jumpForce));
+			currentJumps++;
+			jumpIdProcessed = jumpId;
+		}
+
+		/*
+
 		if ((grounded || (currentJumps < maxJumps - 1)) && jumpPressed) {
+			Debug.Log ("JUMP2!");
 			rigidbody2D.velocity = new Vector2(0, 0);
 			rigidbody2D.AddForce(new Vector2(0, jumpForce));
 			currentJumps++;
 		}
+		*/
 
+		// SCORING
 		RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, Mathf.Infinity, allButPlayer);
 		if (hit != null) {
 			//Debug.Log(hit.collider.gameObject.name);
