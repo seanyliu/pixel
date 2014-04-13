@@ -46,7 +46,7 @@ public class HealthBarScript : MonoBehaviour {
 		heartsArr = new Transform[numHeartsToCreate];
 		heartsShowing = numHeartsToCreate;
 
-		Vector3 p = mainCamera.ScreenToWorldPoint (new Vector3 (30, Screen.height-30, mainCamera.nearClipPlane));
+		Vector3 p = mainCamera.ScreenToWorldPoint (new Vector3 (30 * Screen.width / 400, Screen.height-(70 * Screen.width / 400), mainCamera.nearClipPlane));
 
 		for (int i = 0; i<numHeartsToCreate; i++) {
 			Transform heart = Instantiate(heartPrefab) as Transform;

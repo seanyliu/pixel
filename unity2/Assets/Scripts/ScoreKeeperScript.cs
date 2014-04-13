@@ -6,12 +6,13 @@ public class ScoreKeeperScript : MonoBehaviour {
 	private GUISkin skin;
 
 	public static int Score;
-	public Vector2 pos = new Vector2(20,75);
-	public Vector2 size = new Vector2(650,60);
+	private Vector2 pos = new Vector2(15 * Screen.width / 400, 10 * Screen.width / 400);
+	private Vector2 size = new Vector2(1250,650);
 
 	void Start() {
 		// Load a skin for the buttons
 		skin = Resources.Load("GUISkin") as GUISkin;
+		skin.label.fontSize = 48 * Screen.width / 800;
 	}
 
 	void Awake() {
