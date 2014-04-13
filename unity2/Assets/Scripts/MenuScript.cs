@@ -7,6 +7,7 @@ using System.Collections;
 public class MenuScript : MonoBehaviour {
 
 	private GUISkin skin;
+	public GUIStyle btnStyle;
 
 	// Debugging
 	private string debugString;
@@ -17,23 +18,36 @@ public class MenuScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		const int buttonWidth = 600;
-		const int buttonHeight = 200;
+		//const int buttonWidth = 600;
+		//const int buttonHeight = 200;
 
 		// Set the skin to use
 		GUI.skin = skin;
+		//GUI.backgroundColor = new Color(0,0,0,1); // get rid of border around button
 		
 		// Draw a button to start the game
 		if (GUI.Button(
 				// Center in X, 2/3 of the height in Y
+				new Rect(
+					Screen.width / 2 - ((Screen.width / 2) / 2),
+					(2.0f * Screen.height / 3) - ((Screen.width / 2 * 49 / 190) / 2),
+					Screen.width / 2,
+					(Screen.width / 2 * 49 / 190)
+					),
+				"", // used to be string "Start"
+				btnStyle
+			)) {
+
+			/*
 				new Rect(
 					Screen.width / 2 - (buttonWidth / 2),
 					(2 * Screen.height / 3) - (buttonHeight / 2),
 					buttonWidth,
 					buttonHeight
 					),
-				"Start!"
-			)) {
+				btnStartTexture // used to be string "Start"
+			*/
+
 			// On Click, load the first level.
 			// "Stage1" is the name of the first scene we created.
 			Application.LoadLevel("Stage1");

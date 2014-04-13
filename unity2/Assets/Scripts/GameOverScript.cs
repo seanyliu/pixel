@@ -7,6 +7,7 @@ using System.Collections;
 public class GameOverScript : MonoBehaviour {
 
 	private GUISkin skin;
+	public GUIStyle btnStyle;
 	
 	void Start() {
 		// Load a skin for the buttons
@@ -21,19 +22,20 @@ public class GameOverScript : MonoBehaviour {
 		GUI.skin = skin;
 		
 		if (GUI.Button(
-				// Center in X, 1/3 of the height in Y
+				// Center in X, 1/2 of the height in Y
 				new Rect(
-					Screen.width / 2 - (buttonWidth / 2),
-					(1 * Screen.height / 3) - (buttonHeight / 2),
-					buttonWidth,
-					buttonHeight
-				),
-				"Retry!"
+					Screen.width / 2 - ((Screen.width / 2) / 2),
+					(1 * Screen.height / 2) - ((Screen.width / 2 * 49 / 190) / 2),
+					Screen.width / 2,
+					(Screen.width / 2 * 49 / 190)
+					),
+				"",
+				btnStyle
 			)) {
 			// Reload the level
 			Application.LoadLevel("Stage1");
 		}
-		
+		/*
 		if (GUI.Button(
 				// Center in X, 2/3 of the height in Y
 				new Rect(
@@ -47,5 +49,6 @@ public class GameOverScript : MonoBehaviour {
 			// Reload the level
 			Application.LoadLevel("Menu");
 		}
+		*/
 	}
 }

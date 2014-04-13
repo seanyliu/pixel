@@ -46,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//jumpCooldown = 0f;
+		transform.parent.gameObject.GetComponent<GameOverScript> ().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -183,7 +184,7 @@ PlayerScript:FixedUpdate() (at Assets/Scripts/PlayerScript.cs:118)
 		// Game Over.
 		// Add the script to the parent because the current game
 		// object is likely going to be destroyed immediately.
-		transform.parent.gameObject.AddComponent<GameOverScript>();
+		transform.parent.gameObject.GetComponent<GameOverScript> ().enabled = true;
 	}
 	
 
