@@ -182,6 +182,13 @@ PlayerScript:FixedUpdate() (at Assets/Scripts/PlayerScript.cs:118)
 
 	void OnDestroy() {
 		// Game Over.
+
+		// Save the high score
+		int highScore = PlayerPrefs.GetInt ("HighScore");
+		if (ScoreKeeperScript.Score > highScore) {
+			PlayerPrefs.SetInt ("HighScore", ScoreKeeperScript.Score);
+		}
+
 		// Add the script to the parent because the current game
 		// object is likely going to be destroyed immediately.
 		transform.parent.gameObject.GetComponent<GameOverScript> ().enabled = true;
