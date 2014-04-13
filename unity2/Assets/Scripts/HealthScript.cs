@@ -23,6 +23,12 @@ public class HealthScript : MonoBehaviour {
 	/// <param name="damageCount"></param>
 	public void Damage(int damageCount) {
 		hp -= damageCount;
+
+		HealthBarScript hbs = GetComponent<HealthBarScript>();
+		if (hbs) {
+			hbs.updateHealth();
+		}
+
 		if (hp <= 0) {
 			// Explosion!
 			SpecialEffectsHelper.Instance.Explosion(transform.position);

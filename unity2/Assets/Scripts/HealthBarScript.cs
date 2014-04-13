@@ -56,6 +56,13 @@ public class HealthBarScript : MonoBehaviour {
 			heartsArr[i] = heart;
 		}
 	}
+
+	public void updateHealth() {
+		if (GetComponent<HealthScript> ().hp < heartsShowing && heartsShowing > 0) {
+			heartsArr[heartsShowing-1].transform.gameObject.SetActive(false);
+			heartsShowing--;
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -65,10 +72,6 @@ public class HealthBarScript : MonoBehaviour {
 		//barDisplay = (float)(GetComponent<HealthScript> ().hp) / (float)(GetComponent<HealthScript> ().maxHp);
 
 		//   barDisplay = MyControlScript.staticHealth;
-		if (GetComponent<HealthScript> ().hp < heartsShowing && heartsShowing > 0) {
-			heartsArr[heartsShowing-1].transform.gameObject.SetActive(false);
-			heartsShowing--;
-		}
-
+		updateHealth ();
 	}
 }
