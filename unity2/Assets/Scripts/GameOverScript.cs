@@ -8,10 +8,16 @@ public class GameOverScript : MonoBehaviour {
 
 	private GUISkin skin;
 	public GUIStyle btnStyle;
+
+	private Vector2 creditsPos = new Vector2(15 * Screen.width / 400, Screen.height - (70 * Screen.width / 400) );
+	private Vector2 musicCreditsPos = new Vector2(15 * Screen.width / 400, Screen.height - (45 * Screen.width / 400) );
+	private Vector2 creditsSize = new Vector2(1250,200);
 	
 	void Start() {
 		// Load a skin for the buttons
 		skin = Resources.Load("GUISkin") as GUISkin;
+		skin.label.fontSize = 48 * Screen.width / 800;
+		//skin.label.alignment = TextAnchor.UpperCenter;
 	}
 
 	void OnGUI() {
@@ -50,5 +56,8 @@ public class GameOverScript : MonoBehaviour {
 			Application.LoadLevel("Menu");
 		}
 		*/
+
+		GUI.Label(new Rect(creditsPos.x, creditsPos.y, creditsSize.x, creditsSize.y), "Game by Sean Liu & Matt Wyble");
+		GUI.Label(new Rect(musicCreditsPos.x, musicCreditsPos.y, creditsSize.x, creditsSize.y), "Music by Ove Melaa");
 	}
 }
