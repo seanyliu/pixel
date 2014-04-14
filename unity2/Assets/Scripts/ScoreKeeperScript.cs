@@ -13,7 +13,7 @@ public class ScoreKeeperScript : MonoBehaviour {
 	void Start() {
 		// Load a skin for the buttons
 		skin = Resources.Load("GUISkin") as GUISkin;
-		skin.label.fontSize = 48 * Screen.width / 800;
+		skin.label.fontSize = 32 * Screen.width / 800;
 		highScore = PlayerPrefs.GetInt ("HighScore");
 	}
 
