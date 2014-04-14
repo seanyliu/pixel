@@ -52,6 +52,9 @@ public class EnemySpawnerScript : MonoBehaviour {
 			
 			// Assign position
 			enemyTransform.position = transform.position;
+
+			// Make the game get harder
+			spawnRate -= 0.05f;
 		}
 	}
 	
