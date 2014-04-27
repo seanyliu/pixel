@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dispatcher - Long haul trucking at the touch of a button</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+<style type="text/css">
+
+html, body {
+  font-family: 'Open Sans';
+  font-weight: 300;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  /* Override bootstrap's fixed effect */
+  position: absolute;
+}
+
+.navbar .navbar-text {
+  font-size: 13px;
+  color: #FFF;
+}
+
+.navbar-brand {
+  text-indent: -9999px;
+  background-image: url('images/logo-white.png');
+  background-repeat: no-repeat;
+  background-position: left center; 
+  margin-top: -3px;
+  width: 154px;
+}
+
+#home {
+  background: url('images/bg-map.png') 50% 0 fixed;
+  background-size: cover;
+  height: 550px;
+  color: #FFF;
+}
+
+#home .container {
+  position: relative;
+}
+
+#home p {
+  font-weight: 300;
+}
+
+#home {
+  position: relative;
+}
+
+#ss-iphone div {
+  background: url('images/ss-iphone.png');
+  background-repeat: no-repeat;
+  height: 425px;
+  margin-top: 125px; 
+}
+
+#slogan {
+  position: absolute;
+  left: 337px;
+  top: 180px;
+
+  /* move the z-index so the screenshot isn't above it to block clicks */
+  z-index: 1;
+}
+
+#slogan h1 {
+  font-size: 26px;
+  padding-bottom: 10px;
+}
+
+#slogan p {
+  width: 60%;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#slogan .btn {
+  margin-top: 20px;
+}
+
+.btn {
+  font-family: 'Open Sans', 'Helvetica';
+  font-weight: 300;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  padding: 10px 50px;
+}
+
+#footer {
+  font-size: 13px;
+  padding-top: 20px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+  #home {
+    height: 765px;
+  }
+
+  #slogan {
+    position: relative;
+    padding-top: 70px;
+    top: 0px;
+    left: 0px;
+    width: 90%;
+    margin: 0px auto;
+    text-align: center;
+  }
+
+  #slogan p {
+    width: 100%;
+  }
+
+  div#ss-iphone div {
+    background-position: center top;
+    margin-top: 50px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <a class="navbar-brand" href="#">Brand</a>
+    <p class="navbar-text navbar-right hidden-xs">Questions?  Call: (415) 967-3857</p>
+  </div>
+</nav>
+
+<section id="home" data-speed="4" data-type="background">
+  <div class="container">
+    <div id="slogan">
+        <h1>Find shipping jobs</h1>
+        <p>Join the Dispatcher platform to find mobile shipping jobs faster. Track deadlines and get paid faster.</p>
+        <a href="#" class="btn btn-primary">Download</a>
+    </div>
+    <div class="row" id="ss-iphone">
+      <div class="col-md-12"></div>
+    </div>
+  </div>
+</section>
+
+<div class="container" id="footer">
+  <div class="row">
+    <div class="col-md-12">
+      <p class="navbar-left">&copy;2013-2014 Dispatcher All Rights Reserved</p>
+      <p class="navbar-right">Questions?  Call: (415) 967-3857</p>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

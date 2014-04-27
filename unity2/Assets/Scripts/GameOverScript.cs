@@ -11,7 +11,7 @@ public class GameOverScript : MonoBehaviour {
 
 	private Vector2 creditsPos = new Vector2(15 * Screen.width / 400, Screen.height - (70 * Screen.width / 400) );
 	private Vector2 musicCreditsPos = new Vector2(15 * Screen.width / 400, Screen.height - (45 * Screen.width / 400) );
-	private Vector2 creditsSize = new Vector2(1250,200);
+	private Vector2 creditsSize = new Vector2(2450,200);
 	
 	void Start() {
 		// Load a skin for the buttons

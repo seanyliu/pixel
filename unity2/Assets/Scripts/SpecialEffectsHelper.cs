@@ -32,7 +32,7 @@ public class SpecialEffectsHelper : MonoBehaviour {
 		instantiate(smokeEffect, position);
 		
 		// Fire in the sky
-		instantiate(fireEffect, position);
+		//instantiate(fireEffect, position);
 	}
 
 	/// <summary>
