@@ -9,7 +9,7 @@ using System.Collections;
 public class HealthBarScript : MonoBehaviour {
 
 	public float barDisplay; //current progress
-	public Vector2 pos = new Vector2(20,40);
+	//public Vector2 pos = new Vector2(20,40);
 	public Vector2 size = new Vector2(60,20);
 	public Texture2D emptyTex;
 	public Texture2D fullTex;
@@ -46,7 +46,7 @@ public class HealthBarScript : MonoBehaviour {
 		heartsArr = new Transform[numHeartsToCreate];
 		heartsShowing = numHeartsToCreate;
 
-		Vector3 p = mainCamera.ScreenToWorldPoint (new Vector3 (30 * Screen.width / 400, Screen.height-(70 * Screen.width / 400), mainCamera.nearClipPlane));
+		Vector3 p = mainCamera.ScreenToWorldPoint (new Vector3 (30 * Screen.width / 400, Screen.height-(90 * Screen.width / 400), mainCamera.nearClipPlane));
 
 		for (int i = 0; i<numHeartsToCreate; i++) {
 			Transform heart = Instantiate(heartPrefab) as Transform;
