@@ -14,3 +14,7 @@ results
 npm-debug.log
 
 npm_install/
+unity2/Temp
+unity2/Library
+unity2/Assembly-CSharp-vs.csproj
+unity2/Assembly-CSharp.csproj
