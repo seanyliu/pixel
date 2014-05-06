@@ -14,6 +14,7 @@ results
 npm-debug.log
 
 npm_install/
+node_modules/
 unity2/Builds
 unity2/Temp
 unity2/Library
