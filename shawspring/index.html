@@ -25,8 +25,8 @@ html, body {
 
 .navbar {
   background-color: #000;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: 0px;
 }
 
@@ -37,7 +37,7 @@ html, body {
 
 .navbar-brand {
   text-indent: -9999px;
-  background-image: url('images/logo-white.png');
+  background-image: url('images/logo-white-full.png');
   background-repeat: no-repeat;
   background-position: left center; 
   margin-top: -3px;
@@ -45,14 +45,76 @@ html, body {
 }
 
 #home {
-  background: url('images/bg-buildings.png');
+  background: url('images/bg-asia.png');
   background-size: cover;
   height: 500px;
   color: #FFF;
+  -webkit-animation-name: carousel;
+  -webkit-animation-duration: 25s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-play-state: running;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes carousel {
+  0% {
+    background: url('images/bg-asia.png');
+    background-size: cover;
+  }
+  2% {
+    background: url('images/bg-asia.png');
+    background-size: cover;
+  }
+  23% {
+    background: url('images/bg-asia.png');
+    background-size: cover;
+  }
+  25% {
+    background: url('images/bg-trees.png');
+    background-size: cover;
+  }
+  27% {
+    background: url('images/bg-trees.png');
+    background-size: cover;
+  }
+  48% {
+    background: url('images/bg-trees.png');
+    background-size: cover;
+  }
+  50% {
+    background: url('images/bg-oc.png');
+    background-size: cover;
+  }
+  52% {
+    background: url('images/bg-oc.png');
+    background-size: cover;
+  }
+  73% {
+    background: url('images/bg-oc.png');
+    background-size: cover;
+  }
+  75% {
+    background: url('images/bg-baseball.png');
+    background-size: cover;
+  }
+  77% {
+    background: url('images/bg-baseball.png');
+    background-size: cover;
+  }
+  98% {
+    background: url('images/bg-baseball.png');
+    background-size: cover;
+  }
 }
 
 #slogan {
-  padding-top: 120px;
+  padding-top: 180px;
+}
+
+#slogan h1, h2 {
+  text-shadow: 0px 3px 5px #000;
 }
 
 #slogan h1 {
@@ -67,7 +129,7 @@ html, body {
   font-size: 24px;
   text-transform: uppercase;
   font-weight: 500;
-  margin: 0px 0px 25px 0px;
+  margin: 10px 0px 25px 0px;
   line-height: 1.1;
 }
 
@@ -93,7 +155,7 @@ html, body {
 #footer {
   font-size: 13px;
   padding-top: 20px;
-  color: #999;
+  color: #000;
 }
 
 #footer ul {
@@ -147,10 +209,9 @@ html, body {
   <div class="container">
     <div class="row">
       <div id="slogan">
-        <h1>A Private Equity Approach</h1>
-        <h2>To Public Markets Investing</h2>
-        <p>Our investment strategy is based on focused, rigorous, fundamental research.</p>
-        <a href="#" class="btn btn-success">Client Login</a>
+        <h1>A concentrated, focused approach</h1>
+        <h2>to public markets investing</h2>
+        <!--<a href="#" class="btn btn-success">Client Login</a>-->
       </div>
     </div>
   </div>
@@ -159,6 +220,7 @@ html, body {
 <div class="container" id="footer">
   <div class="row">
       <ul class="navbar-left">
+        <li>Client Login</li>
         <li>Disclosure</li>
         <li>Contact Us</li>
       </ul>
