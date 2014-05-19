@@ -6,6 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script>
+
+$(window).load(function() {
+  $("#disclosure-toggle").click(function() {
+    $("#disclosure").toggle();
+  });
+});
+
+</script>
 <link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <style type="text/css">
@@ -164,6 +173,17 @@ html, body {
   padding: 0px;
 }
 
+#disclosure-wrapper {
+}
+
+#disclosure {
+  display: none;
+}
+
+#footer a {
+  color: #000;
+}
+
 #footer li {
   display: inline;
   padding-right: 15px;
@@ -209,7 +229,7 @@ html, body {
   <div class="container">
     <div class="row">
       <div id="slogan">
-        <h1>A concentrated, focused approach</h1>
+        <h1>A concentrated value approach</h1>
         <h2>to public markets investing</h2>
         <!--<a href="#" class="btn btn-success">Client Login</a>-->
       </div>
@@ -218,14 +238,17 @@ html, body {
 </section>
 
 <div class="container" id="footer">
+  <div class="row" id="disclosure-wrapper">
+    <p id="disclosure">ShawSpring Partners and its managed funds are not open for investment by members of the public.  No offer of interests in such funds is being made or should be inferred.</p>
+  </div>
   <div class="row">
-      <ul class="navbar-left">
-        <li>Client Login</li>
-        <li>Disclosure</li>
-        <li>Contact Us</li>
-      </ul>
-      <p class="navbar-right">1 International Place, Suite 2400 &nbsp; &nbsp; Boston, MA 02110</p>
-    </div>
+    <ul class="navbar-left">
+      <li><a href="https://www.sscfundservices.com/login.aspx">Client Login</a></li>
+      <li id="disclosure-toggle"><a href="#">Disclosure</a></li>
+      <li><a href="mailto:info@shawspring.com">Contact Us</a></li>
+    </ul>
+    <p class="navbar-right">1 International Place, Suite 2400 &nbsp; &nbsp; Boston, MA 02110</p>
+  </div>
 </div>
 
 </body>
